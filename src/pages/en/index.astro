@@ -1,0 +1,160 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+
+import Hero from '~/components/widgets/Hero.astro';
+import Features from '~/components/widgets/Features.astro';
+import Features2 from '~/components/widgets/Features2.astro';
+
+const phoneDisplay = '+966 57 977 9897';
+const phoneTel = 'tel:+966579779897';
+const whatsappUrl = 'https://wa.me/966579779897';
+const email = 'Hazmiao@amwajk.com';
+const mailto = `mailto:${email}`;
+
+const mapEmbed = 'https://maps.google.com/maps?q=21.55124,39.1769838&hl=en&z=16&output=embed';
+const mapDirections = 'https://www.google.com/maps/dir/?api=1&destination=21.55124,39.1769838';
+
+const metadata = {
+  title: 'Amwaj Alkhaleej Sanitary Tools — Jeddah',
+  ignoreTitleTemplate: true,
+};
+---
+
+<Layout metadata={metadata} locale="en">
+  <!-- Hero -->
+  <Hero
+    actions={[
+      {
+        variant: 'primary',
+        text: 'Get Directions',
+        href: mapDirections,
+        target: '_blank',
+        icon: 'tabler:map-pin',
+      },
+      {
+        text: 'Call Us',
+        href: phoneTel,
+        icon: 'tabler:phone',
+      },
+    ]}
+  >
+    <Fragment slot="title">Amwaj Alkhaleej Sanitary Tools</Fragment>
+    <Fragment slot="subtitle">
+      Your shop in Aziziyah, Jeddah (Ghorab Market) — sanitary ware and plumbing supplies for projects and homes.
+    </Fragment>
+  </Hero>
+
+  <!-- What we sell -->
+  <Features
+    id="products"
+    tagline="Products"
+    title="What We Sell"
+    subtitle="A wide selection of sanitary ware and plumbing supplies."
+    items={[
+      { title: 'Toilets', description: 'Western and Eastern style, various designs.', icon: 'tabler:armchair-2' },
+      { title: 'Faucets & Basins', description: 'Bathroom, kitchen, and basin fittings.', icon: 'tabler:droplet' },
+      { title: 'Showers', description: 'Hand-held, overhead, and accessories.', icon: 'tabler:bath' },
+      { title: 'Pipes & Fittings', description: 'PPR, PVC, and all connector types.', icon: 'tabler:tools' },
+      { title: 'Water Heaters', description: 'Electric and gas models.', icon: 'tabler:flame' },
+      { title: 'Bathroom Accessories', description: 'Holders, brushes, mirrors, and more.', icon: 'tabler:hanger' },
+    ]}
+  />
+
+  <!-- Why visit -->
+  <Features2
+    id="why-us"
+    tagline="Why Us"
+    title="Three Reasons to Visit"
+    items={[
+      {
+        title: 'Wide selection at fair prices',
+        description: 'A broad range of brands at prices that work for contractors and homeowners alike.',
+        icon: 'tabler:tag',
+      },
+      {
+        title: 'Staff who know what they sell',
+        description: 'Helpful team that guides you to the right pick for your project.',
+        icon: 'tabler:user-check',
+      },
+      {
+        title: 'Easy to find, easy to park',
+        description: 'In the heart of Ghorab Market, Aziziyah — easy access and parking nearby.',
+        icon: 'tabler:parking',
+      },
+    ]}
+  />
+
+  <!-- Location -->
+  <section id="location" class="px-4 sm:px-6 py-12 md:py-16">
+    <div class="max-w-6xl mx-auto">
+      <p class="text-base text-secondary font-bold tracking-wide uppercase mb-2">Location</p>
+      <h2 class="text-3xl md:text-4xl font-bold leading-tighter tracking-tighter mb-8 font-heading">
+        Find Us Here
+      </h2>
+      <div class="grid md:grid-cols-2 gap-6 md:gap-10 items-start">
+        <div class="space-y-4 text-lg text-muted dark:text-slate-300">
+          <p><strong class="text-default">Address:</strong><br />Ghorab Market, Aziziyah district, Jeddah, Saudi Arabia.</p>
+          <p>
+            <strong class="text-default">Hours:</strong><br />
+            Saturday – Thursday: 9:00 AM – 10:00 PM<br />
+            Friday: Closed
+          </p>
+          <a
+            href={mapDirections}
+            target="_blank"
+            rel="noopener"
+            class="inline-flex items-center gap-2 mt-2 px-5 py-3 rounded-md bg-primary text-white font-medium hover:bg-secondary transition"
+          >
+            Open directions in Google Maps
+          </a>
+        </div>
+        <div class="rounded-md overflow-hidden border border-gray-200 dark:border-slate-700 aspect-[4/3]">
+          <iframe
+            src={mapEmbed}
+            width="100%"
+            height="100%"
+            style="border:0"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            title="Amwaj Alkhaleej location on map"
+          ></iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" class="px-4 sm:px-6 py-12 md:py-16 bg-blue-50 dark:bg-transparent">
+    <div class="max-w-3xl mx-auto text-center">
+      <p class="text-base text-secondary font-bold tracking-wide uppercase mb-2">Contact</p>
+      <h2 class="text-3xl md:text-4xl font-bold leading-tighter tracking-tighter mb-8 font-heading">
+        Call or Visit Us
+      </h2>
+      <div class="grid sm:grid-cols-3 gap-4">
+        <a
+          href={phoneTel}
+          class="flex flex-col items-center gap-2 p-5 rounded-md bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 hover:shadow-md transition"
+        >
+          <span class="text-sm text-muted">Phone</span>
+          <span class="font-semibold text-default">{phoneDisplay}</span>
+        </a>
+        <a
+          href={whatsappUrl}
+          target="_blank"
+          rel="noopener"
+          class="flex flex-col items-center gap-2 p-5 rounded-md bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 hover:shadow-md transition"
+        >
+          <span class="text-sm text-muted">WhatsApp</span>
+          <span class="font-semibold text-default">{phoneDisplay}</span>
+        </a>
+        <a
+          href={mailto}
+          class="flex flex-col items-center gap-2 p-5 rounded-md bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 hover:shadow-md transition"
+        >
+          <span class="text-sm text-muted">Email</span>
+          <span class="font-semibold text-default">{email}</span>
+        </a>
+      </div>
+    </div>
+  </section>
+</Layout>

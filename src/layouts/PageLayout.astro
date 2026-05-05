@@ -1,0 +1,31 @@
+---
+import Layout from '~/layouts/Layout.astro';
+import Header from '~/components/widgets/Header.astro';
+import Footer from '~/components/widgets/Footer.astro';
+
+import { headerDataAr, headerDataEn, footerDataAr, footerDataEn } from '~/navigation';
+
+import type { MetaData } from '~/types';
+
+export interface Props {
+  metadata?: MetaData;
+  locale?: 'ar' | 'en';
+}
+
+const { metadata, locale = 'ar' } = Astro.props;
+const isAr = locale === 'ar';
+const headerData = isAr ? headerDataAr : headerDataEn;
+const footerData = isAr ? footerDataAr : footerDataEn;
+---
+
+<Layout metadata={metadata} language={isAr ? 'ar' : 'en'} textDirection={isAr ? 'rtl' : 'ltr'}>
+  <slot name="header">
+    <Header {...headerData} isSticky />
+  </slot>
+  <main>
+    <slot />
+  </main>
+  <slot name="footer">
+    <Footer {...footerData} />
+  </slot>
+</Layout>

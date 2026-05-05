@@ -1,0 +1,62 @@
+site:
+  name: Amwaj Alkhaleej
+  site: 'https://www.amwajk.com'
+  base: '/'
+  trailingSlash: false
+
+# Default SEO metadata
+metadata:
+  title:
+    default: مؤسسة أمواج الخليج للأدوات الصحية
+    template: '%s — مؤسسة أمواج الخليج'
+  description: 'مؤسسة أمواج الخليج للأدوات الصحية — متجر متخصص في الأدوات الصحية ومستلزمات السباكة في حي العزيزية، جدة (سوق غراب).'
+  robots:
+    index: true
+    follow: true
+  openGraph:
+    site_name: Amwaj Alkhaleej
+    type: website
+
+i18n:
+  language: ar
+  textDirection: rtl
+
+apps:
+  blog:
+    isEnabled: false
+    postsPerPage: 6
+
+    post:
+      isEnabled: false
+      permalink: '/%slug%'
+      robots:
+        index: false
+
+    list:
+      isEnabled: false
+      pathname: 'blog'
+      robots:
+        index: false
+
+    category:
+      isEnabled: false
+      pathname: 'category'
+      robots:
+        index: false
+
+    tag:
+      isEnabled: false
+      pathname: 'tag'
+      robots:
+        index: false
+
+    isRelatedPostsEnabled: false
+    relatedPostsCount: 0
+
+analytics:
+  vendors:
+    googleAnalytics:
+      id: null
+
+ui:
+  theme: 'light:only'

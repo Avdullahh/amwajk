@@ -1,18 +1,160 @@
 ---
-const title = 'Amwaj Alkhaleej — امواج الخليج';
+import Layout from '~/layouts/PageLayout.astro';
+
+import Hero from '~/components/widgets/Hero.astro';
+import Features from '~/components/widgets/Features.astro';
+import Features2 from '~/components/widgets/Features2.astro';
+
+const phoneDisplay = '+966 57 977 9897';
+const phoneTel = 'tel:+966579779897';
+const whatsappUrl = 'https://wa.me/966579779897';
+const email = 'Hazmiao@amwajk.com';
+const mailto = `mailto:${email}`;
+
+const mapEmbed = 'https://maps.google.com/maps?q=21.55124,39.1769838&hl=ar&z=16&output=embed';
+const mapDirections = 'https://www.google.com/maps/dir/?api=1&destination=21.55124,39.1769838';
+
+const metadata = {
+  title: 'مؤسسة أمواج الخليج للأدوات الصحية — جدة',
+  ignoreTitleTemplate: true,
+};
 ---
-<!doctype html>
-<html lang="ar" dir="rtl">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <title>{title}</title>
-  </head>
-  <body>
-    <main>
-      <h1>{title}</h1>
-      <p>Day 0 — site under construction.</p>
-    </main>
-  </body>
-</html>
+
+<Layout metadata={metadata} locale="ar">
+  <!-- Hero -->
+  <Hero
+    actions={[
+      {
+        variant: 'primary',
+        text: 'الاتجاهات على الخريطة',
+        href: mapDirections,
+        target: '_blank',
+        icon: 'tabler:map-pin',
+      },
+      {
+        text: 'اتصل بنا',
+        href: phoneTel,
+        icon: 'tabler:phone',
+      },
+    ]}
+  >
+    <Fragment slot="title">مؤسسة أمواج الخليج للأدوات الصحية</Fragment>
+    <Fragment slot="subtitle">
+      متجركم في حي العزيزية بجدة (سوق غراب) — أدوات صحية ومستلزمات سباكة لمشاريعكم وبيوتكم.
+    </Fragment>
+  </Hero>
+
+  <!-- What we sell -->
+  <Features
+    id="products"
+    tagline="منتجاتنا"
+    title="ماذا نبيع"
+    subtitle="تشكيلة واسعة من الأدوات الصحية ومستلزمات السباكة."
+    items={[
+      { title: 'كراسي حمام', description: 'كراسي عربي وإفرنجي بمختلف التصاميم.', icon: 'tabler:armchair-2' },
+      { title: 'خلاطات ومغاسل', description: 'خلاطات حمام ومطبخ ومغاسل.', icon: 'tabler:droplet' },
+      { title: 'دشات', description: 'دش يدوي وعمودي وملحقاته.', icon: 'tabler:bath' },
+      { title: 'مواسير ووصلات', description: 'PPR وPVC وجميع أنواع الوصلات.', icon: 'tabler:tools' },
+      { title: 'سخانات مياه', description: 'سخانات كهربائية وغازية.', icon: 'tabler:flame' },
+      { title: 'إكسسوارات الحمام', description: 'حاملات وفرش ومرايا وملحقات.', icon: 'tabler:hanger' },
+    ]}
+  />
+
+  <!-- Why visit -->
+  <Features2
+    id="why-us"
+    tagline="لماذا نحن"
+    title="ثلاثة أسباب لزيارتنا"
+    items={[
+      {
+        title: 'تشكيلة كبيرة بأسعار منافسة',
+        description: 'مجموعة واسعة من الماركات بأسعار للمقاولين والمستهلكين.',
+        icon: 'tabler:tag',
+      },
+      {
+        title: 'فريق يعرف ما يبيع',
+        description: 'موظفون يساعدونك في اختيار المناسب لمشروعك.',
+        icon: 'tabler:user-check',
+      },
+      {
+        title: 'موقع سهل ومواقف متاحة',
+        description: 'في قلب سوق غراب بحي العزيزية، سهل الوصول.',
+        icon: 'tabler:parking',
+      },
+    ]}
+  />
+
+  <!-- Location -->
+  <section id="location" class="px-4 sm:px-6 py-12 md:py-16">
+    <div class="max-w-6xl mx-auto">
+      <p class="text-base text-secondary font-bold tracking-wide uppercase mb-2">الموقع</p>
+      <h2 class="text-3xl md:text-4xl font-bold leading-tighter tracking-tighter mb-8 font-heading">
+        تجدوننا هنا
+      </h2>
+      <div class="grid md:grid-cols-2 gap-6 md:gap-10 items-start">
+        <div class="space-y-4 text-lg text-muted dark:text-slate-300">
+          <p><strong class="text-default">العنوان:</strong><br />سوق غراب، حي العزيزية، جدة، المملكة العربية السعودية.</p>
+          <p>
+            <strong class="text-default">ساعات العمل:</strong><br />
+            السبت – الخميس: 9:00 صباحًا – 10:00 مساءً<br />
+            الجمعة: مغلق
+          </p>
+          <a
+            href={mapDirections}
+            target="_blank"
+            rel="noopener"
+            class="inline-flex items-center gap-2 mt-2 px-5 py-3 rounded-md bg-primary text-white font-medium hover:bg-secondary transition"
+          >
+            افتح الاتجاهات في خرائط جوجل
+          </a>
+        </div>
+        <div class="rounded-md overflow-hidden border border-gray-200 dark:border-slate-700 aspect-[4/3]">
+          <iframe
+            src={mapEmbed}
+            width="100%"
+            height="100%"
+            style="border:0"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            title="موقع مؤسسة أمواج الخليج على الخريطة"
+          ></iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" class="px-4 sm:px-6 py-12 md:py-16 bg-blue-50 dark:bg-transparent">
+    <div class="max-w-3xl mx-auto text-center">
+      <p class="text-base text-secondary font-bold tracking-wide uppercase mb-2">تواصل معنا</p>
+      <h2 class="text-3xl md:text-4xl font-bold leading-tighter tracking-tighter mb-8 font-heading">
+        كلمونا أو زورونا
+      </h2>
+      <div class="grid sm:grid-cols-3 gap-4">
+        <a
+          href={phoneTel}
+          class="flex flex-col items-center gap-2 p-5 rounded-md bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 hover:shadow-md transition"
+        >
+          <span class="text-sm text-muted">اتصل</span>
+          <span class="font-semibold text-default" dir="ltr">{phoneDisplay}</span>
+        </a>
+        <a
+          href={whatsappUrl}
+          target="_blank"
+          rel="noopener"
+          class="flex flex-col items-center gap-2 p-5 rounded-md bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 hover:shadow-md transition"
+        >
+          <span class="text-sm text-muted">واتساب</span>
+          <span class="font-semibold text-default" dir="ltr">{phoneDisplay}</span>
+        </a>
+        <a
+          href={mailto}
+          class="flex flex-col items-center gap-2 p-5 rounded-md bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 hover:shadow-md transition"
+        >
+          <span class="text-sm text-muted">البريد الإلكتروني</span>
+          <span class="font-semibold text-default" dir="ltr">{email}</span>
+        </a>
+      </div>
+    </div>
+  </section>
+</Layout>

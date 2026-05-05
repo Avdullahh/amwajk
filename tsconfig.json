@@ -1,5 +1,14 @@
 {
-  "extends": "astro/tsconfigs/strict",
+  "extends": "astro/tsconfigs/base",
+  "compilerOptions": {
+    "strictNullChecks": true,
+    "allowJs": true,
+    "baseUrl": "./amwajk",
+    "ignoreDeprecations": "6.0",
+    "paths": {
+      "~/*": ["src/*"]
+    }
+  },
   "include": [".astro/types.d.ts", "**/*"],
-  "exclude": ["dist"]
+  "exclude": ["dist/"]
 }
