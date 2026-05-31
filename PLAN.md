@@ -1,4 +1,4 @@
-# Amwaj Alkhaleej — Project Plan (Day 0)
+# Amwaj Alkhaleej — Project Plan 
 
 **Business:** Amwaj Alkhaleej / امواج الخليج
 **Sector:** Sanitary ware & plumbing supplies — retail
