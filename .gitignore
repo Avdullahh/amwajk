@@ -64,3 +64,20 @@ nginx/
 vercel.json
 sandbox.config.json
 .stackblitzrc
+
+# Files not required to build/run the deployed site — kept off the public repo.
+# (The site builds and deploys without these; restore by removing the line + `git add`.)
+# Internal docs
+LICENSE.md
+# Project documentation — AGENTS.md, PLAN.md, and any future docs (not needed to build the site)
+documents/
+# Editor / formatting / lint tooling (not used by `npm run build`)
+.editorconfig
+.npmrc
+.prettierignore
+.prettierrc.cjs
+eslint.config.js
+.vscode/
+vscode.tailwind.json
+# CI (Netlify builds/deploys independently of GitHub Actions)
+.github/
