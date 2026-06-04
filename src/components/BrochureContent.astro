@@ -1,0 +1,146 @@
+---
+// Shared body of the single-page brochure, rendered once for both locales.
+// The thin route files (`/index.astro` AR, `/en/index.astro` EN) each render this
+// with their locale; all translatable copy lives in `~/i18n/ui` (`brochure`).
+import Hero from '~/components/widgets/Hero.astro';
+import Features from '~/components/widgets/Features.astro';
+import Features2 from '~/components/widgets/Features2.astro';
+import { business, brochure, type Locale } from '~/i18n/ui';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const c = brochure[locale];
+const mapEmbed = locale === 'ar' ? business.mapEmbedAr : business.mapEmbedEn;
+
+// Icons are locale-independent; pair them with the translated items by index.
+const productIcons = [
+  'tabler:armchair-2',
+  'tabler:droplet',
+  'tabler:bath',
+  'tabler:tools',
+  'tabler:flame',
+  'tabler:hanger',
+];
+const whyUsIcons = ['tabler:tag', 'tabler:user-check', 'tabler:parking'];
+
+type ContentItem = { title: string; description: string };
+const productItems = c.products.items.map((item: ContentItem, i: number) => ({ ...item, icon: productIcons[i] }));
+const whyUsItems = c.whyUs.items.map((item: ContentItem, i: number) => ({ ...item, icon: whyUsIcons[i] }));
+---
+
+<!-- Hero -->
+<Hero
+  actions={[
+    {
+      variant: 'primary',
+      text: c.hero.directions,
+      href: business.mapDirections,
+      target: '_blank',
+      icon: 'tabler:map-pin',
+    },
+    {
+      text: c.hero.call,
+      href: business.phoneTel,
+      icon: 'tabler:phone',
+    },
+  ]}
+>
+  <Fragment slot="title">{c.hero.title}</Fragment>
+  <Fragment slot="subtitle">{c.hero.subtitle}</Fragment>
+</Hero>
+
+<!-- What we sell -->
+<Features
+  id="products"
+  tagline={c.products.tagline}
+  title={c.products.title}
+  subtitle={c.products.subtitle}
+  items={productItems}
+/>
+
+<!-- Why visit -->
+<Features2 id="why-us" tagline={c.whyUs.tagline} title={c.whyUs.title} items={whyUsItems} />
+
+<!-- Location -->
+<section id="location" class="px-4 sm:px-6 py-12 md:py-16">
+  <div class="max-w-6xl mx-auto">
+    <p class="text-base text-secondary font-bold tracking-wide uppercase mb-2">{c.location.eyebrow}</p>
+    <h2 class="text-3xl md:text-4xl font-bold leading-tighter tracking-tighter mb-8 font-heading">
+      {c.location.title}
+    </h2>
+    <div class="grid md:grid-cols-2 gap-6 md:gap-10 items-start">
+      <div class="space-y-4 text-lg text-muted dark:text-slate-300">
+        <p>
+          <strong class="text-default">{c.location.addressLabel}</strong><br />{c.location.address}
+        </p>
+        <p>
+          <strong class="text-default">{c.location.hoursLabel}</strong><br />
+          {
+            c.location.hours.map((line, i) => (
+              <Fragment>
+                {i > 0 && <br />}
+                {line}
+              </Fragment>
+            ))
+          }
+        </p>
+        <a
+          href={business.mapDirections}
+          target="_blank"
+          rel="noopener"
+          class="inline-flex items-center gap-2 mt-2 px-5 py-3 rounded-md bg-primary text-white font-medium hover:bg-secondary transition"
+        >
+          {c.location.mapsCta}
+        </a>
+      </div>
+      <div class="rounded-md overflow-hidden border border-gray-200 dark:border-slate-700 aspect-4/3">
+        <iframe
+          src={mapEmbed}
+          width="100%"
+          height="100%"
+          style="border:0"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          title={c.location.mapTitle}></iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Contact -->
+<section id="contact" class="px-4 sm:px-6 py-12 md:py-16 bg-blue-50 dark:bg-transparent">
+  <div class="max-w-3xl mx-auto text-center">
+    <p class="text-base text-secondary font-bold tracking-wide uppercase mb-2">{c.contact.eyebrow}</p>
+    <h2 class="text-3xl md:text-4xl font-bold leading-tighter tracking-tighter mb-8 font-heading">
+      {c.contact.title}
+    </h2>
+    <div class="grid sm:grid-cols-3 gap-4">
+      <a
+        href={business.phoneTel}
+        class="flex flex-col items-center gap-2 p-5 rounded-md bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 hover:shadow-md transition"
+      >
+        <span class="text-sm text-muted">{c.contact.phoneLabel}</span>
+        <span class="font-semibold text-default" dir="ltr">{business.phoneDisplay}</span>
+      </a>
+      <a
+        href={business.whatsappUrl}
+        target="_blank"
+        rel="noopener"
+        class="flex flex-col items-center gap-2 p-5 rounded-md bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 hover:shadow-md transition"
+      >
+        <span class="text-sm text-muted">{c.contact.whatsappLabel}</span>
+        <span class="font-semibold text-default" dir="ltr">{business.phoneDisplay}</span>
+      </a>
+      <a
+        href={`mailto:${business.email}`}
+        class="flex flex-col items-center gap-2 p-5 rounded-md bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 hover:shadow-md transition"
+      >
+        <span class="text-sm text-muted">{c.contact.emailLabel}</span>
+        <span class="font-semibold text-default" dir="ltr">{business.email}</span>
+      </a>
+    </div>
+  </div>
+</section>

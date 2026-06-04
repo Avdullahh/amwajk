@@ -3,19 +3,20 @@ import Layout from '~/layouts/Layout.astro';
 import Header from '~/components/widgets/Header.astro';
 import Footer from '~/components/widgets/Footer.astro';
 
-import { headerDataAr, headerDataEn, footerDataAr, footerDataEn } from '~/navigation';
+import { getHeaderData, getFooterData } from '~/navigation';
+import type { Locale } from '~/i18n/ui';
 
 import type { MetaData } from '~/types';
 
 export interface Props {
   metadata?: MetaData;
-  locale?: 'ar' | 'en';
+  locale?: Locale;
 }
 
 const { metadata, locale = 'ar' } = Astro.props;
 const isAr = locale === 'ar';
-const headerData = isAr ? headerDataAr : headerDataEn;
-const footerData = isAr ? footerDataAr : footerDataEn;
+const headerData = getHeaderData(locale);
+const footerData = getFooterData(locale);
 ---
 
 <Layout metadata={metadata} language={isAr ? 'ar' : 'en'} textDirection={isAr ? 'rtl' : 'ltr'}>
