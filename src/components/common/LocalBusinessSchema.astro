@@ -1,0 +1,44 @@
+---
+import { business, ui } from '~/i18n/ui';
+import type { Locale } from '~/i18n/ui';
+
+export interface Props {
+  language?: Locale;
+}
+const { language = 'ar' } = Astro.props;
+const other: Locale = language === 'ar' ? 'en' : 'ar';
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'HardwareStore',
+  name: ui[language]['site.brand'],
+  alternateName: ui[other]['site.brand'],
+  url: 'https://amwajk.com',
+  telephone: '+966579779897',
+  email: business.email,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: 'Ghorab Market, Aziziyah district',
+    addressLocality: 'Jeddah',
+    addressRegion: 'Makkah',
+    addressCountry: 'SA',
+  },
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: business.lat,
+    longitude: business.lng,
+  },
+  openingHoursSpecification: [
+    {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: ['Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday'],
+      opens: '09:00',
+      closes: '22:00',
+    },
+  ],
+  priceRange: '$$',
+  hasMap: business.mapDirections,
+};
+---
+
+<script type="application/ld+json" is:inline set:html={JSON.stringify(schema)} />

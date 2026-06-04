@@ -15,6 +15,8 @@ export const defaultLocale: Locale = 'ar';
 
 // Locale-independent business facts (phone, links, etc.) — never duplicate these per locale.
 export const business = {
+  lat: 21.55124,
+  lng: 39.1769838,
   phoneDisplay: '+966 57 977 9897',
   phoneTel: 'tel:+966579779897',
   whatsappUrl: 'https://wa.me/966579779897',

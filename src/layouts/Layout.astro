@@ -17,6 +17,7 @@ import { ClientRouter } from 'astro:transitions';
 import { getAbsoluteLocaleUrl } from 'astro:i18n';
 
 import type { MetaData as MetaDataType } from '~/types';
+import LocalBusinessSchema from '~/components/common/LocalBusinessSchema.astro';
 
 export interface Props {
   metadata?: MetaDataType;
@@ -44,6 +45,7 @@ const defaultHref = getAbsoluteLocaleUrl('ar', '/');
     <link rel="alternate" hreflang="ar-SA" href={arHref} />
     <link rel="alternate" hreflang="en-SA" href={enHref} />
     <link rel="alternate" hreflang="x-default" href={defaultHref} />
+    <LocalBusinessSchema language={language as 'ar' | 'en'} />
     <SiteVerification />
     <Analytics />
 
