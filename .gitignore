@@ -69,6 +69,10 @@ sandbox.config.json
 # (The site builds and deploys without these; restore by removing the line + `git add`.)
 # Internal docs
 LICENSE.md
+# Internal implementation backlog (planned tasks/ideas — not needed to build the site)
+IMPLEMENTATION_TASKS.md
+# Agent guide auto-load pointer (imports the gitignored documents/AGENTS.md — keep internal)
+CLAUDE.md
 # Project documentation — AGENTS.md, PLAN.md, and any future docs (not needed to build the site)
 documents/
 # Editor / formatting / lint tooling (not used by `npm run build`)
@@ -81,3 +85,5 @@ eslint.config.js
 vscode.tailwind.json
 # CI (Netlify builds/deploys independently of GitHub Actions)
 .github/
+# AI Tools (not needed to build the site)
+.devsquad/

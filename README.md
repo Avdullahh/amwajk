@@ -4,12 +4,11 @@ Multilingual website for **Amwaj Alkhaleej**, a sanitary-ware & plumbing supplie
 in Ghorab Market, Aziziyah district, Jeddah, Saudi Arabia.
 
 The site is **bilingual** — Arabic primary (RTL) at `/`, English secondary (LTR) at `/en/` —
-and serves as both a **brochure** (this repo) and the front door to an online **store**.
+and serves as a **marketing brochure** (no online store/checkout).
 
 - **Brochure** — `amwajk.com`, built here with [Astro 5](https://astro.build/) +
   [Tailwind CSS](https://tailwindcss.com/) (AstroWind theme). Static-first, near-zero JS.
-- **Store** — `store.amwajk.com`, a hosted [Zid](https://zid.sa) storefront. The catalog,
-  cart, checkout, payments, and orders are managed in Zid, **not in this repo**.
+  Products are showcased; conversions happen via WhatsApp, phone, or an in-store visit.
 
 ## Tech stack
 
@@ -18,30 +17,13 @@ and serves as both a **brochure** (this repo) and the front door to an online **
 - `astro-icon` + Iconify for icons
 - Deployed on **Netlify** (build `npm run build`, output `dist/`)
 
-## Getting started
-
-```shell
-npm install
-npm run dev      # local dev server at http://localhost:4321
-```
-
-## Commands
-
-| Command           | Action                                          |
-| :---------------- | :---------------------------------------------- |
-| `npm install`     | Install dependencies                            |
-| `npm run dev`     | Start local dev server at `localhost:4321`      |
-| `npm run build`   | Build the production site to `dist/`            |
-| `npm run preview` | Preview the production build locally            |
-| `npm run check`   | Type-check (Astro), lint (ESLint), format check |
-| `npm run fix`     | Auto-fix ESLint + Prettier                      |
-
 ## Project structure
 
 ```
 src/
-├── pages/         # routes — index.astro (AR, /), en/index.astro (EN, /en/), 404.astro
-├── components/    # ui/, common/, widgets/, blog/
+├── pages/         # routes — index.astro (AR, /), en/index.astro (EN, /en/), 404.astro (thin wrappers)
+├── components/    # ui/, common/, widgets/ + BrochureContent.astro (shared page body)
+├── i18n/          # ui.ts (strings + brochure body dict), utils.ts (useTranslations)
 ├── layouts/       # page layouts
 ├── config.yaml    # site config (name, SEO defaults, analytics)
 ├── navigation.ts  # header / footer navigation
@@ -51,9 +33,3 @@ public/            # static assets served as-is
 astro.config.ts    # Astro configuration
 ```
 
-Import from `src` using the `~` alias (e.g. `import Header from '~/components/widgets/Header.astro'`).
-Edit site-wide settings in `src/config.yaml` rather than in components.
-
-## Deploy
-
-Connected to Netlify and auto-deploys from `main`. Build command `npm run build`, publish directory `dist`.
