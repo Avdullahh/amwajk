@@ -12,7 +12,7 @@ const socialLinks = [
 
 // URL prefix for a locale: default (ar) lives at the root, others under /<locale>.
 const localeBase = (locale: Locale) => (locale === 'ar' ? '' : `/${locale}`);
-const localeHome = (locale: Locale) => (locale === 'ar' ? '/' : `/${locale}/`);
+const localeHome = (locale: Locale) => (locale === 'ar' ? '/' : `/${locale}`);
 
 export function getHeaderData(locale: Locale) {
   const t = useTranslations(locale);
