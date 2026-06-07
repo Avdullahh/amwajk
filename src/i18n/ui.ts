@@ -63,6 +63,7 @@ export const brochure = {
     hero: {
       title: 'مؤسسة أمواج الخليج التجارية',
       subtitle: 'متجركم في حي العزيزية بجدة (سوق غراب) — أدوات صحية ومستلزمات سباكة لمشاريعكم وبيوتكم.',
+      eyebrow: 'جدة · العزيزية',
       directions: 'الاتجاهات على الخريطة',
       call: 'اتصل بنا',
     },
@@ -111,6 +112,7 @@ export const brochure = {
       title: 'Amwaj Alkhaleej Establishment',
       subtitle:
         'Your shop in Aziziyah, Jeddah (Ghorab Market) — sanitary ware and plumbing supplies for projects and homes.',
+      eyebrow: 'Jeddah · Aziziyah',
       directions: 'Get Directions',
       call: 'Call Us',
     },

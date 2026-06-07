@@ -2,7 +2,7 @@
 // Shared body of the single-page brochure, rendered once for both locales.
 // The thin route files (`/index.astro` AR, `/en/index.astro` EN) each render this
 // with their locale; all translatable copy lives in `~/i18n/ui` (`brochure`).
-import Hero from '~/components/widgets/Hero.astro';
+import HeroSection from '~/components/HeroSection.astro';
 import Features from '~/components/widgets/Features.astro';
 import Features2 from '~/components/widgets/Features2.astro';
 import { business, brochure, type Locale } from '~/i18n/ui';
@@ -32,25 +32,13 @@ const whyUsItems = c.whyUs.items.map((item: ContentItem, i: number) => ({ ...ite
 ---
 
 <!-- Hero -->
-<Hero
-  actions={[
-    {
-      variant: 'primary',
-      text: c.hero.directions,
-      href: business.mapDirections,
-      target: '_blank',
-      icon: 'tabler:map-pin',
-    },
-    {
-      text: c.hero.call,
-      href: business.phoneTel,
-      icon: 'tabler:phone',
-    },
-  ]}
->
-  <Fragment slot="title">{c.hero.title}</Fragment>
-  <Fragment slot="subtitle">{c.hero.subtitle}</Fragment>
-</Hero>
+<HeroSection
+  title={c.hero.title}
+  subtitle={c.hero.subtitle}
+  eyebrow={c.hero.eyebrow}
+  callLabel={c.hero.call}
+  directionsLabel={c.hero.directions}
+/>
 
 <!-- What we sell -->
 <Features
