@@ -306,10 +306,12 @@ const { title, subtitle, eyebrow, callLabel, directionsLabel } = Astro.props;
       r.style.setProperty('--h-text', '#16324f');
       r.style.setProperty('--h-muted', '#3c5470');
       r.style.setProperty('--h-rule', 'rgb(30 79 120 / 0.25)');
+      r.style.setProperty('--h-scrim', '1');
     } else {
       r.style.setProperty('--h-text', '#EFF6FF');
       r.style.setProperty('--h-muted', 'rgb(219 234 254 / 0.85)');
       r.style.setProperty('--h-rule', 'rgb(255 255 255 / 0.35)');
+      r.style.setProperty('--h-scrim', '0');
     }
   }
 

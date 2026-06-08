@@ -26,6 +26,23 @@ export default defineConfig({
   site: 'https://amwajk.com',
   output: 'static',
 
+  experimental: {
+    svgo: {
+      multipass: true,
+      plugins: [
+        {
+          name: 'preset-default',
+          params: {
+            overrides: {
+              removeViewBox: false,
+              cleanupNumericValues: { floatPrecision: 2 },
+            },
+          },
+        },
+      ],
+    },
+  },
+
   i18n: {
     defaultLocale: 'ar',
     locales: ['ar', 'en'],
@@ -67,7 +84,7 @@ export default defineConfig({
       },
       Image: false,
       JavaScript: true,
-      SVG: false,
+      SVG: true,
       Logger: 1,
     }),
 

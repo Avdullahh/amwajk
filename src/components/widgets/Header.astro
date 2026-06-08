@@ -181,8 +181,8 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
   /* Background and shadow scale with scroll depth */
   #header {
     background-color: rgba(255, 255, 255, var(--header-alpha, 0));
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(calc(10px * var(--header-alpha, 0)));
+    -webkit-backdrop-filter: blur(calc(10px * var(--header-alpha, 0)));
     box-shadow: 0 1px 8px rgba(0, 0, 0, calc(var(--header-alpha, 0) * 0.08));
   }
 
@@ -199,10 +199,10 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
     color: var(--h-text, currentColor);
   }
 
-  /* Scrim fades out as background fades in */
+  /* Scrim fades out as background fades in; hidden on dark hero backgrounds */
   #header > div:first-child {
     background: linear-gradient(to bottom, rgba(0, 0, 0, 0.2), transparent);
-    opacity: calc(1 - var(--header-alpha, 0));
+    opacity: calc((1 - var(--header-alpha, 0)) * var(--h-scrim, 1));
   }
 
   /* 20% height reduction — py-3 (0.75rem) → 0.6rem */
