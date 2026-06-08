@@ -20,16 +20,11 @@ const { title, subtitle, eyebrow, callLabel, directionsLabel } = Astro.props;
   <div class="absolute bottom-0 inset-x-0 h-32 pointer-events-none hero-bottom-fade" aria-hidden="true"></div>
 
   <!-- Wave canvas — glass/liquid animated layers -->
-  <canvas
-    id="hero-waves"
-    class="absolute inset-0 w-full h-full pointer-events-none"
-    aria-hidden="true"
-  ></canvas>
+  <canvas id="hero-waves" class="absolute inset-0 w-full h-full pointer-events-none" aria-hidden="true"></canvas>
 
   <!-- Content -->
   <div class="relative z-10 flex flex-col items-center justify-center text-center px-4 sm:px-6 hero-inner">
     <div class="max-w-3xl mx-auto hero-content">
-
       <!-- Eyebrow -->
       <div class="flex items-center justify-center gap-3 mb-6">
         <div class="h-px w-10 hero-rule-el"></div>
@@ -38,7 +33,9 @@ const { title, subtitle, eyebrow, callLabel, directionsLabel } = Astro.props;
       </div>
 
       <!-- Heading -->
-      <h1 class="font-heading font-bold leading-[1.12] tracking-tight mb-5 text-4xl sm:text-5xl md:text-6xl hero-heading-el">
+      <h1
+        class="font-heading font-bold leading-[1.12] tracking-tight mb-5 text-4xl sm:text-5xl md:text-6xl hero-heading-el"
+      >
         {title}
       </h1>
 
@@ -55,8 +52,19 @@ const { title, subtitle, eyebrow, callLabel, directionsLabel } = Astro.props;
           rel="noopener"
           class="hero-cta-primary inline-flex items-center gap-2 px-7 py-3.5 rounded-full font-semibold text-sm tracking-wide text-white"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path><circle cx="12" cy="10" r="3"></circle>
           </svg>
           {directionsLabel}
         </a>
@@ -64,26 +72,49 @@ const { title, subtitle, eyebrow, callLabel, directionsLabel } = Astro.props;
           href={business.phoneTel}
           class="hero-cta-secondary inline-flex items-center gap-2 px-7 py-3.5 rounded-full font-semibold text-sm tracking-wide"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.71 3.37 2 2 0 0 1 3.67 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.69a16 16 0 0 0 6.29 6.29l1.06-1.06a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path
+              d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.71 3.37 2 2 0 0 1 3.67 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.69a16 16 0 0 0 6.29 6.29l1.06-1.06a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"
+            ></path>
           </svg>
           {callLabel}
         </a>
       </div>
-
     </div>
   </div>
 
   <!-- Scroll hint -->
   <div class="absolute bottom-5 left-1/2 -translate-x-1/2 animate-bounce hero-scroll-el" aria-hidden="true">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="m6 9 6 6 6-6"/>
+    <svg
+      width="20"
+      height="20"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <path d="m6 9 6 6 6-6"></path>
     </svg>
   </div>
 </section>
 
 <style>
-  .hero-section { min-height: 100svh; }
+  .hero-section {
+    min-height: 100svh;
+  }
 
   .hero-inner {
     min-height: 100svh;
@@ -95,32 +126,59 @@ const { title, subtitle, eyebrow, callLabel, directionsLabel } = Astro.props;
     animation: heroFadeUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
   }
   @keyframes heroFadeUp {
-    from { opacity: 0; transform: translateY(22px); }
-    to   { opacity: 1; transform: translateY(0); }
+    from {
+      opacity: 0;
+      transform: translateY(22px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
   /* Text & UI colors driven by JS-set CSS vars; sunset is the sensible default */
-  .hero-heading-el  { color: var(--h-text, #16324f); text-shadow: 0 1px 6px rgb(0 0 0 / 0.08); }
-  .hero-subtitle-el { color: var(--h-muted, #3c5470); }
-  .hero-eyebrow-el  { color: var(--h-muted, #3c5470); }
-  .hero-rule-el     { background-color: var(--h-rule, rgb(30 79 120 / 0.25)); }
-  .hero-scroll-el   { color: var(--h-muted, #3c5470); }
+  .hero-heading-el {
+    color: var(--h-text, #16324f);
+    text-shadow: 0 1px 6px rgb(0 0 0 / 0.08);
+  }
+  .hero-subtitle-el {
+    color: var(--h-muted, #3c5470);
+  }
+  .hero-eyebrow-el {
+    color: var(--h-muted, #3c5470);
+  }
+  .hero-rule-el {
+    background-color: var(--h-rule, rgb(30 79 120 / 0.25));
+  }
+  .hero-scroll-el {
+    color: var(--h-muted, #3c5470);
+  }
 
   .hero-cta-primary {
     background-color: var(--h-cta-bg, #1e4f78);
     box-shadow: 0 4px 20px rgb(0 0 0 / 0.18);
-    transition: filter 0.2s, transform 0.15s;
+    transition:
+      filter 0.2s,
+      transform 0.15s;
   }
-  .hero-cta-primary:hover { filter: brightness(1.1); transform: translateY(-1px); }
+  .hero-cta-primary:hover {
+    filter: brightness(1.1);
+    transform: translateY(-1px);
+  }
 
   .hero-cta-secondary {
     color: var(--h-text, #16324f);
     background-color: rgb(255 255 255 / 0.32);
     border: 1px solid var(--h-rule, rgb(30 79 120 / 0.25));
     backdrop-filter: blur(8px);
-    transition: background-color 0.2s, transform 0.15s;
+    transition:
+      background-color 0.2s,
+      transform 0.15s;
   }
-  .hero-cta-secondary:hover { background-color: rgb(255 255 255 / 0.55); transform: translateY(-1px); }
+  .hero-cta-secondary:hover {
+    background-color: rgb(255 255 255 / 0.55);
+    transform: translateY(-1px);
+  }
 
   .hero-bottom-fade {
     background: linear-gradient(to bottom, transparent, var(--aw-color-bg-page));
@@ -130,75 +188,107 @@ const { title, subtitle, eyebrow, callLabel, directionsLabel } = Astro.props;
 <script>
   // ─── Time-of-day palette definitions ────────────────────────────────────────
 
+  declare global {
+    interface Window {
+      __heroPageLoadRegistered?: boolean;
+    }
+  }
+
   interface Period {
-    from: number; to: number;
-    skyTop: string; skyBot: string;
+    from: number;
+    to: number;
+    skyTop: string;
+    skyBot: string;
     // wave fill colors (HSLA); up to 4 layers, front to back
     waves: string[];
-    dark: boolean;    // true → dark text (light sky); false → light text (dark sky)
+    dark: boolean; // true → dark text (light sky); false → light text (dark sky)
     ctaBg: string;
   }
 
   const PERIODS: Period[] = [
     {
-      from: 0, to: 4,
-      skyTop: '#0F172A', skyBot: '#1E3A5F',
+      from: 0,
+      to: 4,
+      skyTop: '#0F172A',
+      skyBot: '#1E3A5F',
       waves: ['hsla(220,65%,62%,0.25)', 'hsla(210,70%,72%,0.20)', 'hsla(200,75%,80%,0.15)'],
-      dark: false, ctaBg: '#2563EB',
+      dark: false,
+      ctaBg: '#2563EB',
     },
     {
-      from: 5, to: 6,
-      skyTop: '#2E1065', skyBot: '#BE185D',
+      from: 5,
+      to: 6,
+      skyTop: '#2E1065',
+      skyBot: '#BE185D',
       waves: ['hsla(280,55%,78%,0.30)', 'hsla(340,60%,80%,0.22)', 'hsla(200,55%,82%,0.18)'],
-      dark: false, ctaBg: '#7C3AED',
+      dark: false,
+      ctaBg: '#7C3AED',
     },
     {
-      from: 7, to: 10,
-      skyTop: '#0EA5E9', skyBot: '#FDE68A',
+      from: 7,
+      to: 10,
+      skyTop: '#0EA5E9',
+      skyBot: '#FDE68A',
       waves: ['hsla(200,80%,74%,0.35)', 'hsla(35,75%,78%,0.26)', 'hsla(210,70%,84%,0.20)'],
-      dark: true, ctaBg: '#0369A1',
+      dark: true,
+      ctaBg: '#0369A1',
     },
     {
-      from: 11, to: 15,
-      skyTop: '#0284C7', skyBot: '#BAE6FD',
+      from: 11,
+      to: 15,
+      skyTop: '#0284C7',
+      skyBot: '#BAE6FD',
       waves: ['hsla(200,78%,78%,0.35)', 'hsla(210,70%,84%,0.25)', 'hsla(190,60%,88%,0.18)'],
-      dark: true, ctaBg: '#0369A1',
+      dark: true,
+      ctaBg: '#0369A1',
     },
     {
-      from: 16, to: 16,
-      skyTop: '#F97316', skyBot: '#FDBA74',
+      from: 16,
+      to: 16,
+      skyTop: '#F97316',
+      skyBot: '#FDBA74',
       waves: ['hsla(25,82%,74%,0.38)', 'hsla(200,68%,78%,0.26)', 'hsla(40,70%,84%,0.20)'],
-      dark: true, ctaBg: '#B45309',
+      dark: true,
+      ctaBg: '#B45309',
     },
     {
       // Sunset — mirrors the original hero design asset: warm peach/coral sky, glass-blue waves
-      from: 17, to: 20,
-      skyTop: '#FB923C', skyBot: '#FCA5A5',
+      from: 17,
+      to: 20,
+      skyTop: '#FB923C',
+      skyBot: '#FCA5A5',
       waves: [
         'hsla(15, 80%, 74%, 0.42)',
         'hsla(200, 72%, 76%, 0.32)',
         'hsla(35, 74%, 82%, 0.24)',
         'hsla(220, 62%, 86%, 0.16)',
       ],
-      dark: true, ctaBg: '#1e4f78',
+      dark: true,
+      ctaBg: '#1e4f78',
     },
     {
-      from: 21, to: 22,
-      skyTop: '#3730A3', skyBot: '#86198F',
+      from: 21,
+      to: 22,
+      skyTop: '#3730A3',
+      skyBot: '#86198F',
       waves: ['hsla(260,58%,70%,0.30)', 'hsla(280,50%,76%,0.22)', 'hsla(240,58%,80%,0.16)'],
-      dark: false, ctaBg: '#6D28D9',
+      dark: false,
+      ctaBg: '#6D28D9',
     },
     {
-      from: 23, to: 23,
-      skyTop: '#020617', skyBot: '#1E1B4B',
+      from: 23,
+      to: 23,
+      skyTop: '#020617',
+      skyBot: '#1E1B4B',
       waves: ['hsla(230,62%,54%,0.24)', 'hsla(220,68%,64%,0.18)', 'hsla(210,70%,74%,0.14)'],
-      dark: false, ctaBg: '#1D4ED8',
+      dark: false,
+      ctaBg: '#1D4ED8',
     },
   ];
 
   function getPeriod(): Period {
     const h = new Date().getHours();
-    return PERIODS.find(p => h >= p.from && h <= p.to) ?? PERIODS[5];
+    return PERIODS.find((p) => h >= p.from && h <= p.to) ?? PERIODS[5];
   }
 
   // ─── Apply sky colours & text tokens ────────────────────────────────────────
@@ -233,8 +323,8 @@ const { title, subtitle, eyebrow, callLabel, directionsLabel } = Astro.props;
   interface WaveLayer {
     color: string;
     freq: number;
-    amp: number;   // fraction of canvas height
-    yOff: number;  // y-centre fraction
+    amp: number; // fraction of canvas height
+    yOff: number; // y-centre fraction
     speed: number;
     phase: number;
   }
@@ -242,9 +332,9 @@ const { title, subtitle, eyebrow, callLabel, directionsLabel } = Astro.props;
   function buildLayers(waveColors: string[]): WaveLayer[] {
     const configs = [
       { freq: 1.2, amp: 0.065, yOff: 0.54, speed: 0.006 },
-      { freq: 1.6, amp: 0.080, yOff: 0.62, speed: 0.009 },
-      { freq: 1.0, amp: 0.070, yOff: 0.69, speed: 0.012 },
-      { freq: 1.4, amp: 0.090, yOff: 0.76, speed: 0.015 },
+      { freq: 1.6, amp: 0.08, yOff: 0.62, speed: 0.009 },
+      { freq: 1.0, amp: 0.07, yOff: 0.69, speed: 0.012 },
+      { freq: 1.4, amp: 0.09, yOff: 0.76, speed: 0.015 },
     ];
     return waveColors.map((color, i) => ({
       color,
@@ -268,7 +358,11 @@ const { title, subtitle, eyebrow, callLabel, directionsLabel } = Astro.props;
         cy +
         Math.sin(t * Math.PI * 2 * l.freq + l.phase) * amp +
         Math.sin(t * Math.PI * 3.1 * l.freq + l.phase * 1.4) * amp * 0.28;
-      x === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+      if (x === 0) {
+        ctx.moveTo(x, y);
+      } else {
+        ctx.lineTo(x, y);
+      }
     }
     ctx.lineTo(w, h);
     ctx.closePath();
@@ -286,7 +380,11 @@ const { title, subtitle, eyebrow, callLabel, directionsLabel } = Astro.props;
         cy +
         Math.sin(t * Math.PI * 2 * l.freq + l.phase) * amp +
         Math.sin(t * Math.PI * 3.1 * l.freq + l.phase * 1.4) * amp * 0.28;
-      x === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+      if (x === 0) {
+        ctx.moveTo(x, y);
+      } else {
+        ctx.lineTo(x, y);
+      }
     }
     ctx.strokeStyle = 'rgba(255,255,255,0.30)';
     ctx.lineWidth = 1.5 * (window.devicePixelRatio || 1);
@@ -311,12 +409,18 @@ const { title, subtitle, eyebrow, callLabel, directionsLabel } = Astro.props;
     function tick() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       const sorted = [...layers].sort((a, b) => a.yOff - b.yOff);
-      for (const l of sorted) { l.phase += l.speed; renderLayer(ctx, l); }
+      for (const l of sorted) {
+        l.phase += l.speed;
+        renderLayer(ctx, l);
+      }
       raf = requestAnimationFrame(tick);
     }
 
     tick();
-    return () => { cancelAnimationFrame(raf); ro.disconnect(); };
+    return () => {
+      cancelAnimationFrame(raf);
+      ro.disconnect();
+    };
   }
 
   // Static mode: single frame, re-rendered on resize (for prefers-reduced-motion)
@@ -346,7 +450,10 @@ const { title, subtitle, eyebrow, callLabel, directionsLabel } = Astro.props;
 
   function init() {
     if (cleanup) cleanup();
-    if (mqCleanup) { mqCleanup(); mqCleanup = null; }
+    if (mqCleanup) {
+      mqCleanup();
+      mqCleanup = null;
+    }
 
     const p = getPeriod();
     applyPeriod(p);
@@ -354,9 +461,7 @@ const { title, subtitle, eyebrow, callLabel, directionsLabel } = Astro.props;
     const canvas = document.getElementById('hero-waves') as HTMLCanvasElement | null;
     if (canvas) {
       const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
-      const stopCanvas = mq.matches
-        ? drawStatic(canvas, p.waves)
-        : startWaves(canvas, p.waves);
+      const stopCanvas = mq.matches ? drawStatic(canvas, p.waves) : startWaves(canvas, p.waves);
 
       cleanup = () => {
         stopCanvas();
@@ -378,11 +483,17 @@ const { title, subtitle, eyebrow, callLabel, directionsLabel } = Astro.props;
   }
 
   // Teardown on view-transition navigation � runs once then self-removes
-  document.addEventListener('astro:before-swap', () => { if (cleanup) cleanup(); }, { once: true });
+  document.addEventListener(
+    'astro:before-swap',
+    () => {
+      if (cleanup) cleanup();
+    },
+    { once: true }
+  );
 
   // Astro view transitions re-run scripts on page-load; guard against duplicates
-  if (!(window as any).__heroPageLoadRegistered) {
-    (window as any).__heroPageLoadRegistered = true;
+  if (!window.__heroPageLoadRegistered) {
+    window.__heroPageLoadRegistered = true;
     document.addEventListener('astro:page-load', init);
   }
 

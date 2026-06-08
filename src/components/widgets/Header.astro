@@ -50,7 +50,7 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
 <header
   class:list={[
     { sticky: isSticky, relative: !isSticky, dark: isDark },
-    'top-0 z-40 flex-none mx-auto w-full border-b border-gray-50/0 transition-[opacity] ease-in-out',
+    'top-0 z-40 flex-none mx-auto w-full border-b border-gray-50/0',
   ]}
   {...isSticky ? { 'data-aw-sticky-header': true } : {}}
   {...id ? { id } : {}}
@@ -70,7 +70,12 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
       },
     ]}
   >
-    <div class:list={[{ 'mr-auto rtl:mr-0 rtl:ml-auto': position === 'right' }, 'flex justify-between']}>
+    <div
+      class:list={[
+        { 'mr-auto rtl:mr-0 rtl:ml-auto': position === 'right' },
+        'flex justify-between ltr:md:order-last ltr:md:justify-self-end',
+      ]}
+    >
       <a class="flex items-center" href={getHomePermalink()}>
         <Logo />
       </a>
@@ -97,7 +102,7 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
                     {text}{' '}
                     <Icon name="tabler:chevron-down" class="w-3.5 h-3.5 ml-0.5 rtl:ml-0 rtl:mr-0.5 hidden md:inline" />
                   </button>
-                  <ul class="dropdown-menu md:backdrop-blur-md dark:md:bg-dark rounded md:absolute ps-4 md:ps-0 md:hidden font-medium md:bg-white/90 md:min-w-[200px] drop-shadow-xl">
+                  <ul class="dropdown-menu md:backdrop-blur-md dark:md:bg-dark rounded md:absolute ps-4 md:ps-0 md:hidden font-medium md:bg-white/90 md:min-w-50 drop-shadow-xl">
                     {links.map(({ text: text2, href: href2 }) => (
                       <li>
                         <a
@@ -132,7 +137,7 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
     <div
       class:list={[
         { 'ml-auto rtl:ml-0 rtl:mr-auto': position === 'left' },
-        'hidden md:self-center md:flex items-center md:mb-0 fixed w-full md:w-auto md:static justify-end left-0 rtl:left-auto rtl:right-0 bottom-0 p-3 md:p-0 md:justify-self-end',
+        'hidden md:self-center md:flex items-center md:mb-0 fixed w-full md:w-auto md:static justify-start left-0 rtl:left-auto rtl:right-0 bottom-0 p-3 md:p-0 ltr:md:order-first ltr:md:justify-self-start rtl:md:justify-self-end',
       ]}
     >
       <div class="items-center flex justify-between w-full md:w-auto">
@@ -154,7 +159,10 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
           actions?.length ? (
             <span class="ml-4 rtl:ml-0 rtl:mr-4">
               {actions.map((btnProps) => (
-                <Button {...btnProps} class="ms-2 py-2.5 px-5.5 md:px-6 font-semibold shadow-none text-sm w-auto" />
+                <Button
+                  {...btnProps}
+                  class="ms-2 py-2.5 px-5.5 md:px-6 font-semibold shadow-none text-sm w-auto !bg-white !text-gray-900 hover:!bg-gray-100 border-0"
+                />
               ))}
             </span>
           ) : (
@@ -165,3 +173,85 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
     </div>
   </div>
 </header>
+
+<style>
+  /* ── Scroll-driven ghost → solid header ──────────────────────────────── */
+  /* JS sets --header-alpha (0 at top → 1 at 150 px) on #header            */
+
+  /* Background and shadow scale with scroll depth */
+  #header {
+    background-color: rgba(255, 255, 255, var(--header-alpha, 0));
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, calc(var(--header-alpha, 0) * 0.08));
+  }
+
+  /* Logo: white on transparent header → brand blue on solid white header */
+  #header :global(.logo) {
+    color: white;
+    color: color-mix(in srgb, #244b6e calc(var(--header-alpha, 0) * 100%), white);
+  }
+
+  /* Nav text follows hero palette until .scroll flips it */
+  #header:not(.scroll) nav,
+  #header:not(.scroll) nav a,
+  #header:not(.scroll) nav button {
+    color: var(--h-text, currentColor);
+  }
+
+  /* Scrim fades out as background fades in */
+  #header > div:first-child {
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.2), transparent);
+    opacity: calc(1 - var(--header-alpha, 0));
+  }
+
+  /* 20% height reduction — py-3 (0.75rem) → 0.6rem */
+  #header > div:nth-child(2) {
+    padding-top: 0.6rem;
+    padding-bottom: 0.6rem;
+  }
+</style>
+
+<script>
+  declare global {
+    interface Window {
+      __headerScrollRegistered?: boolean;
+    }
+  }
+
+  function initHeaderScroll() {
+    const header = document.getElementById('header');
+    if (!header) return;
+
+    let ticking = false;
+    const controller = new AbortController();
+
+    function update() {
+      const alpha = Math.min(1, window.scrollY / 250);
+      header!.style.setProperty('--header-alpha', alpha.toFixed(3));
+      ticking = false;
+    }
+
+    update();
+
+    window.addEventListener(
+      'scroll',
+      () => {
+        if (!ticking) {
+          requestAnimationFrame(update);
+          ticking = true;
+        }
+      },
+      { passive: true, signal: controller.signal }
+    );
+
+    document.addEventListener('astro:before-swap', () => controller.abort(), { once: true });
+  }
+
+  if (!window.__headerScrollRegistered) {
+    window.__headerScrollRegistered = true;
+    document.addEventListener('astro:page-load', initHeaderScroll);
+  }
+
+  initHeaderScroll();
+</script>
