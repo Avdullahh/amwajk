@@ -1,0 +1,69 @@
+---
+// One product-category card: photo, title, subcategory chips, WhatsApp enquiry button.
+//
+// USERFLOW.md ranks WhatsApp as the priority-1 CTA and places it on product cards, so each
+// card deep-links into WhatsApp with the message already written for that category — the
+// customer taps once and is asking about mixers, not staring at an empty compose box.
+import { Image } from 'astro:assets';
+// ImageMetadata is ambient for TypeScript, but ESLint's no-undef can't see it — import explicitly.
+import type { ImageMetadata } from 'astro';
+import WhatsAppIcon from '~/components/WhatsAppIcon.astro';
+import { business } from '~/i18n/ui';
+
+interface Props {
+  title: string;
+  chips: readonly string[];
+  alt: string;
+  image: ImageMetadata;
+  ctaLabel: string;
+  /** Per-locale sentence containing the `{category}` placeholder. */
+  whatsappTemplate: string;
+}
+
+const { title, chips, alt, image, ctaLabel, whatsappTemplate } = Astro.props;
+
+const message = whatsappTemplate.replace('{category}', title);
+const whatsappHref = `${business.whatsappUrl}?text=${encodeURIComponent(message)}`;
+---
+
+<article
+  class="group flex flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white transition-shadow hover:shadow-lg dark:border-slate-700 dark:bg-slate-800"
+>
+  <div class="aspect-4/3 overflow-hidden bg-page-alt">
+    <Image
+      src={image}
+      alt={alt}
+      width={640}
+      height={480}
+      loading="lazy"
+      decoding="async"
+      class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105 motion-reduce:transform-none motion-reduce:transition-none"
+    />
+  </div>
+
+  <div class="flex flex-1 flex-col p-5">
+    <h3 class="font-heading text-lg font-bold text-default">{title}</h3>
+
+    {
+      chips.length > 0 && (
+        <ul class="mt-3 flex flex-wrap gap-2">
+          {chips.map((chip) => (
+            <li class="rounded-full bg-page-alt px-3 py-1 text-xs font-medium text-muted ring-1 ring-gray-200 dark:ring-slate-700">
+              {chip}
+            </li>
+          ))}
+        </ul>
+      )
+    }
+
+    <a
+      href={whatsappHref}
+      target="_blank"
+      rel="noopener"
+      class="mt-5 flex items-center justify-center gap-2 rounded-xl bg-[#25D366] px-4 py-3 text-sm font-bold text-white transition-opacity hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#25D366]"
+    >
+      <WhatsAppIcon />
+      {ctaLabel}
+    </a>
+  </div>
+</article>

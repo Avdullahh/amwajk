@@ -1,0 +1,165 @@
+---
+// Live "open now / closed" indicator for the store.
+//
+// USERFLOW.md lists "check if the store is open now" as a top-4 user action, and nothing
+// else on the page answers it.
+//
+// Two rules govern this component:
+//  1. The store's hours are in Jeddah, so the state is computed in `Asia/Riyadh` — never
+//     in the visitor's own timezone. Someone opening the page from London must see whether
+//     the shop is open in Jeddah, not in London.
+//  2. The script decides *state* only; it never builds a display string. Every phrase is
+//     authored per locale in `~/i18n/ui` and passed down as data- attributes. Formatting
+//     `يغلق 10:00 مساءً` through Intl would mean fighting locale behaviour, and `ar-SA`
+//     drags in the Umm al-Qura calendar.
+import { brochure, type Locale } from '~/i18n/ui';
+
+interface Props {
+  locale: Locale;
+  class?: string;
+}
+
+const { locale, class: className = '' } = Astro.props;
+const s = brochure[locale].openStatus;
+---
+
+<span
+  class:list={['open-status', className]}
+  data-open-status
+  data-s-open={s.open}
+  data-s-today={s.closedOpensToday}
+  data-s-tomorrow={s.closedOpensTomorrow}
+  data-s-saturday={s.closedOpensSaturday}
+  data-s-friday={s.closedFriday}
+>
+  <span class="open-status-dot" aria-hidden="true"></span>
+  <!-- Rendered server-side so crawlers and no-JS visitors get something true, not blank. -->
+  <span data-open-status-text>{s.hoursShort}</span>
+</span>
+
+<style>
+  .open-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.375rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    line-height: 1.2;
+    background-color: var(--aw-color-bg-alt);
+    color: var(--aw-color-text-default);
+    border: 1px solid rgb(157 184 204 / 0.45);
+  }
+
+  .open-status-dot {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 9999px;
+    flex-shrink: 0;
+    /* Neutral until the script resolves the real state. */
+    background-color: rgb(157 184 204);
+  }
+
+  .open-status[data-state='open'] .open-status-dot {
+    background-color: rgb(34 168 94);
+    box-shadow: 0 0 0 3px rgb(34 168 94 / 0.18);
+  }
+
+  .open-status[data-state='closed'] .open-status-dot {
+    background-color: rgb(201 148 42);
+  }
+</style>
+
+<script>
+  declare global {
+    interface Window {
+      __openStatusRegistered?: boolean;
+    }
+  }
+
+  const OPEN_HOUR = 9; // 09:00
+  const CLOSE_HOUR = 22; // 22:00
+  const FRIDAY = 5;
+
+  // Weekday index in Riyadh, via the stable ASCII short names. The 'en-US' locale here is
+  // an implementation detail to keep these keys predictable — it never reaches the user.
+  const DAY_INDEX: Record<string, number> = { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 };
+
+  const THURSDAY = 4;
+
+  type State = 'open' | 'today' | 'tomorrow' | 'saturday' | 'friday';
+
+  function riyadhNow(): { day: number; hour: number } {
+    const parts = new Intl.DateTimeFormat('en-US', {
+      timeZone: 'Asia/Riyadh',
+      weekday: 'short',
+      hour: '2-digit',
+      hour12: false,
+    }).formatToParts(new Date());
+
+    const value = (type: string) => parts.find((p) => p.type === type)?.value ?? '';
+    // hour12:false yields '24' rather than '00' for midnight in some engines.
+    const hour = Number(value('hour')) % 24;
+
+    return { day: DAY_INDEX[value('weekday')] ?? 0, hour };
+  }
+
+  function resolve({ day, hour }: { day: number; hour: number }): State {
+    if (day === FRIDAY) return 'friday';
+    if (hour >= OPEN_HOUR && hour < CLOSE_HOUR) return 'open';
+    // Before opening — it opens again later the same day.
+    if (hour < OPEN_HOUR) return 'today';
+    // After closing. Thursday night skips Friday, so the next opening is Saturday — but the
+    // shop *was* open earlier today, which is why this isn't the same state as Friday.
+    return day === THURSDAY ? 'saturday' : 'tomorrow';
+  }
+
+  const ATTR: Record<State, string> = {
+    open: 'sOpen',
+    today: 'sToday',
+    tomorrow: 'sTomorrow',
+    saturday: 'sSaturday',
+    friday: 'sFriday',
+  };
+
+  function render() {
+    const els = document.querySelectorAll<HTMLElement>('[data-open-status]');
+    if (!els.length) return;
+
+    const state = resolve(riyadhNow());
+
+    els.forEach((el) => {
+      const text = el.dataset[ATTR[state]];
+      const target = el.querySelector<HTMLElement>('[data-open-status-text]');
+      if (text && target) target.textContent = text;
+      el.dataset.state = state === 'open' ? 'open' : 'closed';
+    });
+  }
+
+  let intervalId: ReturnType<typeof setInterval> | null = null;
+
+  function init() {
+    render();
+    if (intervalId !== null) clearInterval(intervalId);
+    // Refresh each minute so the pill flips at opening and closing time without a reload.
+    intervalId = setInterval(render, 60_000);
+  }
+
+  function teardown() {
+    if (intervalId !== null) {
+      clearInterval(intervalId);
+      intervalId = null;
+    }
+  }
+
+  document.addEventListener('astro:before-swap', teardown, { once: true });
+
+  // View transitions re-run scripts on every navigation; register the listener once.
+  if (!window.__openStatusRegistered) {
+    window.__openStatusRegistered = true;
+    document.addEventListener('astro:page-load', init);
+  }
+
+  init();
+</script>

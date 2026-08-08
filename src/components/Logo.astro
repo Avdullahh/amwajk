@@ -1,5 +1,23 @@
 ---
 import Logo from '~/assets/images/logo.svg';
+
+interface Props {
+  /**
+   * Hide the mark from assistive tech. Use when the surrounding link already supplies an
+   * accessible name (e.g. the footer, which pairs the mark with visually-hidden brand
+   * text) — otherwise the brand gets announced twice.
+   */
+  decorative?: boolean;
+  class?: string;
+}
+
+const { decorative = false, class: className = 'logo size-12' } = Astro.props;
 ---
 
-<Logo class="logo size-12" aria-label="Amwaj Alkhaleej" role="img" />
+{
+  decorative ? (
+    <Logo class={className} aria-hidden="true" />
+  ) : (
+    <Logo class={className} aria-label="Amwaj Alkhaleej" role="img" />
+  )
+}

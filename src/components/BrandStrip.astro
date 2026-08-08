@@ -1,0 +1,177 @@
+---
+// Supplier brands the store stocks, as a stepping billboard.
+//
+// Logos are locale-independent and pair with `brands` in ~/i18n/ui by index — the same
+// convention the category images and icons use. Brand names become the image alt text.
+//
+// The board advances one logo at a time and rests on each — it does not drift continuously.
+// Pure CSS: the track holds the list twice and translates by exactly -50% over five steps,
+// so the second copy lands where the first started and the loop is seamless. Zero JS.
+//
+// The source files are trimmed to their ink bounds (no transparent padding), which is what
+// lets one CSS box size render every logo at a consistent optical size. If a logo is ever
+// replaced, trim it the same way or it will render smaller than its neighbours.
+import { Image } from 'astro:assets';
+import { brands, brochure, type Locale } from '~/i18n/ui';
+
+import grohe from '~/assets/images/brands/grohe.webp';
+import hesanit from '~/assets/images/brands/hesanit.webp';
+import stamina from '~/assets/images/brands/stamina.webp';
+import tredex from '~/assets/images/brands/tredex.webp';
+import villeroyBoch from '~/assets/images/brands/villeroy-boch.png';
+
+interface Props {
+  locale: Locale;
+  id?: string;
+}
+
+const { locale, id } = Astro.props;
+const c = brochure[locale].brands;
+
+// Order must match `brands` in ~/i18n/ui: Hesanit, Tredex, Stamina, Villeroy & Boch, GROHE.
+const logos = [hesanit, tredex, stamina, villeroyBoch, grohe];
+const items = brands.map((brand, i) => ({ name: brand.name, logo: logos[i] }));
+---
+
+<section id={id} class="overflow-hidden bg-page-alt px-4 py-12 sm:px-6">
+  <div class="mx-auto max-w-6xl">
+    <h2 class="text-center font-heading text-xl font-bold text-default sm:text-2xl">{c.title}</h2>
+  </div>
+
+  <!-- dir="ltr" pins the visual order of the logo sequence regardless of page direction;
+       the animation is a transform, so it drifts rightward in both locales. -->
+  <div class="brand-marquee mt-8" dir="ltr">
+    <div class="brand-track">
+      {
+        /* Two identical groups. Each carries its own trailing gap via padding, so a group
+           is exactly 50% of the track and the -50% translate lands seamlessly. Putting the
+           gap only *between* items would make 50% land mid-gap and the loop would jump.
+           The second group is aria-hidden so brands are announced once. */
+        [0, 1].map((copy) => (
+          <ul class="brand-group" aria-hidden={copy === 1 ? 'true' : undefined}>
+            {items.map((item) => (
+              <li class="brand-item">
+                <Image
+                  src={item.logo}
+                  alt={copy === 1 ? '' : item.name}
+                  height={56}
+                  densities={[1, 2]}
+                  loading="lazy"
+                  decoding="async"
+                  class="brand-logo"
+                />
+              </li>
+            ))}
+          </ul>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .brand-marquee {
+    /* Fade the logos out at both edges so they don't collide with the section boundary. */
+    -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+    mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+  }
+
+  .brand-track {
+    display: flex;
+    align-items: center;
+    width: max-content;
+    /* Starts one full copy to the left so the rightward motion always has content behind it.
+       ease-in-out gives each advance the accelerate/settle feel of a real board. */
+    animation: brand-advance 20s ease-in-out infinite;
+  }
+
+  .brand-group {
+    display: flex;
+    align-items: center;
+    gap: 3.5rem;
+    /* The trailing gap belongs to the group, not between groups — see the markup comment. */
+    padding-inline-end: 3.5rem;
+  }
+
+  /* Five logos per group, so the -50% travel is five advances of 10% each. Each 20% slice
+     of the timeline holds for 12% and moves for 8% — roughly 2.4s resting, 1.6s moving at
+     the 20s duration. Change the duration to change the pace; the ratios stay correct. */
+  @keyframes brand-advance {
+    0%,
+    12% {
+      transform: translateX(-50%);
+    }
+    20%,
+    32% {
+      transform: translateX(-40%);
+    }
+    40%,
+    52% {
+      transform: translateX(-30%);
+    }
+    60%,
+    72% {
+      transform: translateX(-20%);
+    }
+    80%,
+    92% {
+      transform: translateX(-10%);
+    }
+    100% {
+      transform: translateX(0);
+    }
+  }
+
+  /* Every logo gets an identical box and is contained inside it, so none can outgrow the
+     others. Equal-width slots also matter for the stepping: one advance is 1/5 of a group,
+     which only lands on a logo boundary if every slot is the same width.
+
+     Even trimmed, aspects range 1.98:1 (Villeroy & Boch) to 4.55:1 (Hesanit). The box is
+     deliberately ~3.8:1 — close to the wide wordmarks — so they are not shrunk far below
+     the squarer marks. At 3:1 the rendered heights spanned 33px to 52px; at 3.8:1 they
+     span 39px to 46px, which reads as evenly weighted. */
+  .brand-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: none;
+    width: 7.5rem;
+    height: 2rem;
+  }
+
+  .brand-logo {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+  }
+
+  @media (min-width: 640px) {
+    .brand-item {
+      width: 11rem;
+      height: 2.875rem;
+    }
+  }
+
+  /* AGENTS.md: every animation needs a static fallback. With motion reduced the track stops
+     and becomes a centred wrapping row; the duplicate copy is dropped so nothing repeats. */
+  @media (prefers-reduced-motion: reduce) {
+    .brand-track {
+      animation: none;
+      width: 100%;
+      justify-content: center;
+    }
+
+    .brand-group {
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 2rem 3rem;
+      padding-inline-end: 0;
+    }
+
+    .brand-group[aria-hidden='true'] {
+      display: none;
+    }
+  }
+</style>

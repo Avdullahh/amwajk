@@ -26,6 +26,20 @@ export const business = {
   mapDirections: 'https://www.google.com/maps/dir/?api=1&destination=21.55124,39.1769838',
 } as const;
 
+// Supplier brands stocked in store. Confirmed by the owner 2026-08-08 — only real product
+// brands belong here, never neighbouring establishments or fellow retailers. Rendered as
+// typographic wordmarks (see BrandStrip.astro); brand names stay in Latin script in both
+// locales, which is how they're recognised in the Saudi market.
+// `logo` is reserved for real SVG assets if they're ever licensed — until then the type
+// treatment stands on its own rather than using traced or invented logo art.
+export const brands = [
+  { name: 'Hesanit' },
+  { name: 'Tredex' },
+  { name: 'Stamina' },
+  { name: 'Villeroy & Boch' },
+  { name: 'GROHE' },
+] as const;
+
 export const ui = {
   ar: {
     'site.brand': 'مؤسسة أمواج الخليج التجارية',
@@ -71,21 +85,84 @@ export const brochure = {
       tagline: 'منتجاتنا',
       title: 'ماذا نبيع',
       subtitle: 'تشكيلة واسعة من الأدوات الصحية ومستلزمات السباكة.',
+      // `{category}` is replaced with the card's title, then the whole string is
+      // encodeURIComponent-ed into the wa.me link.
+      whatsappTemplate: 'السلام عليكم، أستفسر عن {category}.',
+      whatsappCta: 'تواصل عبر واتساب',
       items: [
-        { title: 'كراسي حمام', description: 'كراسي عربي وإفرنجي بمختلف التصاميم.' },
-        { title: 'خلاطات ومغاسل', description: 'خلاطات حمام ومطبخ ومغاسل.' },
-        { title: 'دشات', description: 'دش يدوي وعمودي وملحقاته.' },
-        { title: 'مواسير ووصلات', description: 'PPR وPVC وجميع أنواع الوصلات.' },
-        { title: 'سخانات مياه', description: 'سخانات كهربائية وغازية.' },
-        { title: 'إكسسوارات الحمام', description: 'حاملات وفرش ومرايا وملحقات.' },
+        {
+          title: 'كراسي حمام',
+          description: 'كراسي عربي وإفرنجي بمختلف التصاميم.',
+          chips: ['عربي', 'إفرنجي', 'معلق', 'ذكي'],
+          alt: 'كرسي حمام أبيض حديث',
+        },
+        {
+          title: 'خلاطات ومغاسل',
+          description: 'خلاطات حمام ومطبخ ومغاسل.',
+          chips: ['خلاط مغسلة', 'خلاط مطبخ', 'مغسلة', 'مخفي'],
+          alt: 'خلاط مغسلة وحوض حمام',
+        },
+        {
+          title: 'دشات',
+          description: 'دش يدوي وعمودي وملحقاته.',
+          chips: ['دش يدوي', 'دش مطر', 'طقم دش', 'شاور'],
+          alt: 'رأس دش مطر في حمام حديث',
+        },
+        {
+          title: 'مواصير ووصلات',
+          description: 'PPR وPVC وجميع أنواع الوصلات.',
+          chips: ['PPR', 'PVC', 'وصلات', 'محابس'],
+          alt: 'مواصير ووصلات سباكة',
+        },
+        {
+          title: 'سخانات مياه',
+          description: 'سخانات كهربائية وغازية.',
+          chips: ['كهربائي', 'غاز', 'فوري'],
+          alt: 'سخان مياه كهربائي',
+        },
+        {
+          title: 'إكسسوارات الحمام',
+          description: 'حاملات وفرش ومرايا وملحقات.',
+          chips: ['مرايا', 'حاملات', 'رفوف', 'مساند'],
+          alt: 'إكسسوارات حمام معدنية',
+        },
       ],
+    },
+    brands: {
+      title: 'ماركات نوفرها',
+    },
+    steps: {
+      tagline: 'كيف تطلب',
+      title: 'ثلاث خطوات وخلصت',
+      items: [
+        { title: 'راسلنا على واتساب', description: 'أرسل صورة أو اسم المنتج اللي تحتاجه.' },
+        { title: 'نؤكد التوفر والسعر', description: 'نرد عليك بالتوفر والسعر بسرعة.' },
+        { title: 'استلم من المعرض أو رتّب التوصيل', description: 'تعال المحل أو ننسق لك التوصيل.' },
+      ],
+    },
+    // Four mutually exclusive states, rendered from data- attributes by OpenStatus.astro.
+    // Written out by hand (Arabic-Indic numerals included) so no Intl formatting is
+    // needed at runtime — the script only picks which one to show.
+    // Western digits throughout, matching `location.hours` directly below the pill — the
+    // two sit side by side on the page and must not disagree on numeral system.
+    openStatus: {
+      // Server-rendered fallback: factual and correct with JS disabled, since the script
+      // is what turns this into a live open/closed reading.
+      hoursShort: 'السبت – الخميس 9:00 ص – 10:00 م',
+      open: 'مفتوح الآن · يغلق 10:00 مساءً',
+      closedOpensToday: 'مغلق · يفتح 9:00 صباحًا',
+      closedOpensTomorrow: 'مغلق · يفتح غدًا 9:00 صباحًا',
+      // Thursday after closing: shut for the night, and Friday is the weekend, so the next
+      // opening is Saturday. Distinct from closedFriday — the shop *was* open today.
+      closedOpensSaturday: 'مغلق · يفتح السبت 9:00 صباحًا',
+      closedFriday: 'مغلق اليوم · يفتح السبت 9:00 صباحًا',
     },
     whyUs: {
       tagline: 'لماذا نحن',
       title: 'ثلاثة أسباب لزيارتنا',
       items: [
         { title: 'تشكيلة كبيرة بأسعار منافسة', description: 'مجموعة واسعة من الماركات بأسعار للمقاولين والمستهلكين.' },
-        { title: 'فريق يعرف ما يبيع', description: 'موظفون يساعدونك في اختيار المناسب لمشروعك.' },
+        { title: 'فريق فاهم و مساعد', description: 'موظفون يساعدونك في اختيار المناسب لمشروعك.' },
         { title: 'موقع سهل ومواقف متاحة', description: 'في قلب سوق غراب بحي العزيزية، سهل الوصول.' },
       ],
     },
@@ -120,14 +197,66 @@ export const brochure = {
       tagline: 'Products',
       title: 'What We Sell',
       subtitle: 'A wide selection of sanitary ware and plumbing supplies.',
+      whatsappTemplate: 'Hello, I have a question about {category}.',
+      whatsappCta: 'Ask on WhatsApp',
       items: [
-        { title: 'Toilets', description: 'Western and Eastern style, various designs.' },
-        { title: 'Faucets & Basins', description: 'Bathroom, kitchen, and basin fittings.' },
-        { title: 'Showers', description: 'Hand-held, overhead, and accessories.' },
-        { title: 'Pipes & Fittings', description: 'PPR, PVC, and all connector types.' },
-        { title: 'Water Heaters', description: 'Electric and gas models.' },
-        { title: 'Bathroom Accessories', description: 'Holders, brushes, mirrors, and more.' },
+        {
+          title: 'Toilets',
+          description: 'Western and Eastern style, various designs.',
+          chips: ['Eastern', 'Western', 'Wall-hung', 'Smart'],
+          alt: 'Modern white toilet',
+        },
+        {
+          title: 'Faucets & Basins',
+          description: 'Bathroom, kitchen, and basin fittings.',
+          chips: ['Basin mixer', 'Kitchen mixer', 'Basin', 'Concealed'],
+          alt: 'Basin mixer tap and washbasin',
+        },
+        {
+          title: 'Showers',
+          description: 'Hand-held, overhead, and accessories.',
+          chips: ['Hand shower', 'Rain head', 'Shower set', 'Rails'],
+          alt: 'Rain shower head in a modern bathroom',
+        },
+        {
+          title: 'Pipes & Fittings',
+          description: 'PPR, PVC, and all connector types.',
+          chips: ['PPR', 'PVC', 'Fittings', 'Valves'],
+          alt: 'Plumbing pipes and fittings',
+        },
+        {
+          title: 'Water Heaters',
+          description: 'Electric and gas models.',
+          chips: ['Electric', 'Gas', 'Instant'],
+          alt: 'Electric water heater',
+        },
+        {
+          title: 'Bathroom Accessories',
+          description: 'Holders, brushes, mirrors, and more.',
+          chips: ['Mirrors', 'Holders', 'Shelves', 'Grab bars'],
+          alt: 'Metal bathroom accessories',
+        },
       ],
+    },
+    brands: {
+      title: 'Brands We Stock',
+    },
+    steps: {
+      tagline: 'How to Order',
+      title: 'Three Steps and You’re Done',
+      items: [
+        { title: 'Message us on WhatsApp', description: 'Send a photo or the name of what you need.' },
+        { title: 'We confirm stock and price', description: 'We get back to you quickly with both.' },
+        { title: 'Collect in store or arrange delivery', description: 'Drop by the shop or we’ll sort delivery.' },
+      ],
+    },
+    openStatus: {
+      hoursShort: 'Sat–Thu 9 AM – 10 PM',
+      open: 'Open now · closes 10:00 PM',
+      closedOpensToday: 'Closed · opens 9:00 AM',
+      closedOpensTomorrow: 'Closed · opens tomorrow 9:00 AM',
+      closedOpensSaturday: 'Closed · opens Saturday 9:00 AM',
+      closedFriday: 'Closed today · opens Saturday 9:00 AM',
     },
     whyUs: {
       tagline: 'Why Us',

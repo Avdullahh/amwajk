@@ -1,6 +1,7 @@
 ---
 import { Icon } from 'astro-icon/components';
 import { SITE } from 'astrowind:config';
+import Logo from '~/components/Logo.astro';
 import { getHomePermalink } from '~/utils/permalinks';
 
 interface Link {
@@ -34,7 +35,19 @@ const { socialLinks = [], secondaryLinks = [], links = [], footNote = '', theme 
     <div class="grid grid-cols-12 gap-4 gap-y-8 sm:gap-8 py-8 md:py-12">
       <div class="col-span-12 lg:col-span-4">
         <div class="mb-2">
-          <a class="inline-block font-bold text-xl" href={getHomePermalink()}>{SITE?.name}</a>
+          {
+            /* The wave mark stands in for the brand name here. `SITE.name` is kept as
+              visually-hidden text so the link still has a readable accessible name and the
+              brand string stays in the page for search engines. */
+          }
+          <a class="inline-block" href={getHomePermalink()}>
+            {
+              /* text-primary drives the SVG's currentColor paths; the token already
+                lightens under .dark, so no dark-mode override is needed. */
+            }
+            <Logo decorative class="size-12 text-primary" />
+            <span class="sr-only">{SITE?.name}</span>
+          </a>
         </div>
         <div class="text-sm text-muted flex gap-1">
           {

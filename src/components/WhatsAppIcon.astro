@@ -1,0 +1,24 @@
+---
+// Shared WhatsApp glyph. Used on the category cards and in the contact panel — kept in one
+// place so the path can't drift between them.
+interface Props {
+  size?: number;
+  class?: string;
+}
+
+// `|| undefined` so an unset class doesn't emit a bare empty `class` attribute.
+const { size = 18, class: className } = Astro.props;
+---
+
+<svg
+  viewBox="0 0 24 24"
+  width={size}
+  height={size}
+  fill="currentColor"
+  class={className || undefined}
+  aria-hidden="true"
+>
+  <path
+    d="M12.04 2C6.6 2 2.2 6.4 2.2 11.84c0 1.94.52 3.76 1.44 5.33L2 22l4.96-1.6a9.8 9.8 0 0 0 5.08 1.4h.01c5.43 0 9.84-4.4 9.84-9.84C21.89 6.4 17.48 2 12.04 2Zm5.75 14c-.24.68-1.4 1.32-1.93 1.36-.5.05-.96.23-3.24-.68-2.73-1.08-4.45-3.86-4.58-4.04-.13-.18-1.09-1.46-1.09-2.78 0-1.32.69-1.97.94-2.24.24-.27.53-.34.71-.34.18 0 .35 0 .5.01.16.01.38-.06.59.45.24.57.8 1.97.87 2.11.07.14.12.3.02.48-.09.18-.14.29-.27.45-.13.16-.28.35-.4.47-.13.14-.27.28-.12.55.15.27.66 1.09 1.42 1.77.97.87 1.79 1.14 2.06 1.27.27.14.42.11.58-.07.16-.18.66-.77.84-1.04.18-.27.35-.22.59-.13.24.09 1.53.72 1.79.85.27.14.44.2.5.31.07.11.07.63-.17 1.24Z"
+  ></path>
+</svg>
