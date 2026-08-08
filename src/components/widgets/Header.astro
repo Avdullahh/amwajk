@@ -227,6 +227,47 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
     padding-top: 0.6rem;
     padding-bottom: 0.6rem;
   }
+
+  /* ── Open mobile menu ────────────────────────────────────────────────── */
+  /* Everything above is written for a header floating over the hero, and all of it is
+     wrong once the header becomes a full-screen menu panel. The scroll-driven rules key
+     off --header-alpha, which is 0 at the top of the page — so the panel rendered fully
+     transparent with white-on-white text. `.expanded` outranks them all: #header.expanded
+     is one class more specific than the bare #header rules, so these win wherever they
+     overlap. (BasicScripts also toggles a `bg-page` class, but a plain utility can never
+     beat an id selector — that toggle has never had any effect.) */
+
+  #header.expanded {
+    background-color: var(--aw-color-bg-page);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  /* The hero scrim is a dark gradient sized to the header; at 100vh it smears over the
+     whole panel. */
+  #header.expanded > div:first-child {
+    opacity: 0;
+  }
+
+  /* --h-text tracks the hero sky and is near-white at night — invisible on the panel. */
+  #header.expanded nav,
+  #header.expanded nav a,
+  #header.expanded nav button {
+    color: var(--aw-color-text-default);
+  }
+
+  /* Same problem for the logo, which is pure white while --header-alpha is 0. */
+  #header.expanded :global(.logo) {
+    color: #244b6e;
+  }
+
+  /* AstroWind un-hides the actions container on expand, floating it `fixed bottom-0`.
+     That duplicates the language switcher already in the nav list and lands it on top of
+     the mobile call/WhatsApp bar. Desktop never sets `.expanded`, so this only ever hides
+     the mobile copy. */
+  #header.expanded > div > div:last-child {
+    display: none;
+  }
 </style>
 
 <script>
@@ -246,7 +287,16 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
     // getBoundingClientRect, not offsetHeight: the latter rounds to whole pixels, and the
     // leftover fraction (85.2 -> 85) is enough to leave a hairline of body background at
     // fractional device-pixel ratios — which is the artifact this exists to remove.
-    const set = () => document.documentElement.style.setProperty('--header-h', `${header.getBoundingClientRect().height}px`);
+    // Skip while the mobile menu is open. Expanding adds `h-screen`, so measuring then
+    // publishes ~100vh and feeds back into two consumers: `#header.expanded nav` uses
+    // --header-h as its `top`, which pushed the whole panel below the fold, and the hero's
+    // `margin-top: calc(-1 * var(--header-h))` yanked the page up a full viewport. Holding
+    // the last collapsed measurement keeps both correct. Measuring the inner bar instead
+    // would drop the `border-b` pixel and reintroduce the white band this exists to remove.
+    const set = () => {
+      if (header.classList.contains('expanded')) return;
+      document.documentElement.style.setProperty('--header-h', `${header.getBoundingClientRect().height}px`);
+    };
     set();
     headerResizeObserver?.disconnect();
     headerResizeObserver = new ResizeObserver(set);
