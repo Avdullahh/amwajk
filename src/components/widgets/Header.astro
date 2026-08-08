@@ -263,10 +263,14 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
 
   /* AstroWind un-hides the actions container on expand, floating it `fixed bottom-0`.
      That duplicates the language switcher already in the nav list and lands it on top of
-     the mobile call/WhatsApp bar. Desktop never sets `.expanded`, so this only ever hides
-     the mobile copy. */
-  #header.expanded > div > div:last-child {
-    display: none;
+     the mobile call/WhatsApp bar. Keyed on the breakpoint rather than on `.expanded`:
+     BasicScripts' onPageShow drops `expanded` without restoring the `hidden` class, so a
+     bfcache restore with the menu open would otherwise leave the button floating there.
+     This is the exact complement of Tailwind's `md:`, so desktop keeps its copy. */
+  @media not all and (min-width: 48rem) {
+    #header > div > div:last-child {
+      display: none;
+    }
   }
 </style>
 
