@@ -12,7 +12,7 @@ interface Props {
 const { title, subtitle, eyebrow, callLabel, directionsLabel } = Astro.props;
 ---
 
-<section id="home" class="hero-section relative overflow-hidden md:-mt-[76px]">
+<section id="home" class="hero-section relative overflow-hidden">
   <!-- Sky gradient — default: sunset palette; JS sets the real time-of-day colors -->
   <div id="hero-sky" class="absolute inset-0" aria-hidden="true"></div>
 
@@ -112,13 +112,23 @@ const { title, subtitle, eyebrow, callLabel, directionsLabel } = Astro.props;
 </section>
 
 <style>
+  /* The header is sticky, so it occupies flow space; pulling the hero up by exactly the
+     header's measured height puts the hero behind the transparent header and starts it at
+     the very top of the viewport. --header-h is published by Header.astro (ResizeObserver);
+     the 76px fallback only applies for the instant before that script runs.
+
+     This was `md:-mt-[76px]` — a hardcoded guess that applied only from md: up. It left an
+     ~9px white band on desktop (the header really measures ~85px) and a full-height white
+     band on mobile, where no offset was applied at all. */
   .hero-section {
     min-height: 100svh;
+    margin-top: calc(-1 * var(--header-h, 76px));
   }
 
   .hero-inner {
     min-height: 100svh;
-    padding-top: 76px;
+    /* Keeps the hero's content clear of the header it now sits beneath. */
+    padding-top: var(--header-h, 76px);
     padding-bottom: 5rem;
   }
 

@@ -44,9 +44,12 @@
 
 #header.expanded nav {
   position: fixed;
-  top: 70px;
+  /* Was a hardcoded 70px, which overlapped the header (it really measures ~85px).
+     --header-h is published by Header.astro from the element's measured height. */
+  top: var(--header-h, 70px);
   left: 0;
   right: 0;
+  /* Clears the fixed mobile call/WhatsApp bar. */
   bottom: 70px !important;
   padding: 0 5px;
 }

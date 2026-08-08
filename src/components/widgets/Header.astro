@@ -132,6 +132,23 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
             </li>
           ))
         }
+        {
+          /* The actions container below is `hidden` under md:, so the language switcher
+             simply did not exist on mobile. Repeat it here as a menu item — md:hidden so
+             desktop still gets the single button and never shows it twice. */
+          actions?.length ? (
+            <li class="md:hidden mt-2 border-t border-gray-200 pt-2 dark:border-slate-700">
+              {actions.map(({ text, href }) => (
+                <a class="hover:text-link dark:hover:text-white px-4 py-3 flex items-center gap-2" href={href}>
+                  <Icon name="tabler:language" class="w-5 h-5" />
+                  {text}
+                </a>
+              ))}
+            </li>
+          ) : (
+            ''
+          )
+        }
       </ul>
     </nav>
     <div
@@ -219,9 +236,28 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
     }
   }
 
+  let headerResizeObserver: ResizeObserver | null = null;
+
+  // Publish the header's real height as --header-h so the hero can sit exactly underneath
+  // it. This used to be a hardcoded -76px, but the header measures ~85px at some zoom
+  // levels and font metrics, leaving a white band of body background at the top of the
+  // page. Measuring removes the guess.
+  function publishHeaderHeight(header: HTMLElement) {
+    // getBoundingClientRect, not offsetHeight: the latter rounds to whole pixels, and the
+    // leftover fraction (85.2 -> 85) is enough to leave a hairline of body background at
+    // fractional device-pixel ratios — which is the artifact this exists to remove.
+    const set = () => document.documentElement.style.setProperty('--header-h', `${header.getBoundingClientRect().height}px`);
+    set();
+    headerResizeObserver?.disconnect();
+    headerResizeObserver = new ResizeObserver(set);
+    headerResizeObserver.observe(header);
+  }
+
   function initHeaderScroll() {
     const header = document.getElementById('header');
     if (!header) return;
+
+    publishHeaderHeight(header);
 
     let ticking = false;
     const controller = new AbortController();
@@ -245,7 +281,15 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
       { passive: true, signal: controller.signal }
     );
 
-    document.addEventListener('astro:before-swap', () => controller.abort(), { once: true });
+    document.addEventListener(
+      'astro:before-swap',
+      () => {
+        controller.abort();
+        headerResizeObserver?.disconnect();
+        headerResizeObserver = null;
+      },
+      { once: true }
+    );
   }
 
   if (!window.__headerScrollRegistered) {
