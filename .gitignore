@@ -85,5 +85,3 @@ eslint.config.js
 vscode.tailwind.json
 # CI (Netlify builds/deploys independently of GitHub Actions)
 .github/
-# AI Tools (not needed to build the site)
-.devsquad/
