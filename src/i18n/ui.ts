@@ -20,7 +20,7 @@ export const business = {
   phoneDisplay: '+966 57 977 9897',
   phoneTel: 'tel:+966579779897',
   whatsappUrl: 'https://wa.me/966579779897',
-  email: 'Hazmiao@amwajk.com',
+  email: 'hazmioa@amwajk.com',
   mapEmbedAr: 'https://maps.google.com/maps?q=21.55124,39.1769838&hl=ar&z=16&output=embed',
   mapEmbedEn: 'https://maps.google.com/maps?q=21.55124,39.1769838&hl=en&z=16&output=embed',
   mapDirections: 'https://www.google.com/maps/dir/?api=1&destination=21.55124,39.1769838',
