@@ -12,7 +12,9 @@ const c = brochure[locale];
 const waUrl = `${business.whatsappUrl}?text=${encodeURIComponent('السلام عليكم، أريد الاستفسار')}`;
 ---
 
-<div class="fixed bottom-0 inset-x-0 z-50 md:hidden flex border-t border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-900 shadow-[0_-2px_8px_rgba(0,0,0,0.08)]">
+<div
+  class="fixed bottom-0 inset-x-0 z-50 md:hidden flex border-t border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-900 shadow-[0_-2px_8px_rgba(0,0,0,0.08)]"
+>
   <a
     href={business.phoneTel}
     class="flex flex-1 items-center justify-center gap-2 py-3 text-sm font-semibold text-gray-700 dark:text-slate-200 hover:bg-gray-50 dark:hover:bg-slate-800 transition"
@@ -21,7 +23,7 @@ const waUrl = `${business.whatsappUrl}?text=${encodeURIComponent('السلام �
     <Icon name="tabler:phone" class="w-5 h-5 text-primary" />
     {c.contact.phoneLabel}
   </a>
-  <div class="w-px bg-gray-200 dark:bg-slate-700" />
+  <div class="w-px bg-gray-200 dark:bg-slate-700"></div>
   <a
     href={waUrl}
     target="_blank"

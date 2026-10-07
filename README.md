@@ -32,4 +32,3 @@ src/
 public/            # static assets served as-is
 astro.config.ts    # Astro configuration
 ```
-
