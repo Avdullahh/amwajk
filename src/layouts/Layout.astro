@@ -28,6 +28,7 @@ export interface Props {
 const { metadata = {}, language: langProp, textDirection: dirProp } = Astro.props;
 const language = langProp ?? I18N.language;
 const textDirection = dirProp ?? I18N.textDirection;
+const ogLocale = language === 'en' ? 'en_US' : 'ar_SA';
 const rawPath = Astro.url.pathname.replace(/^\/en/, '') || '/';
 const arHref = getAbsoluteLocaleUrl('ar', rawPath);
 const enHref = getAbsoluteLocaleUrl('en', rawPath);
@@ -41,7 +42,7 @@ const defaultHref = getAbsoluteLocaleUrl('ar', '/');
     <Favicons />
     <CustomStyles />
     <ApplyColorMode />
-    <Metadata {...metadata} />
+    <Metadata {...metadata} openGraph={{ locale: ogLocale, ...metadata.openGraph }} />
     <link rel="alternate" hreflang="ar-SA" href={arHref} />
     <link rel="alternate" hreflang="en-SA" href={enHref} />
     <link rel="alternate" hreflang="x-default" href={defaultHref} />
