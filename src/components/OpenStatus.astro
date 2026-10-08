@@ -72,29 +72,34 @@ const s = brochure[locale].openStatus;
 </style>
 
 <script>
+  import { business } from '~/i18n/ui';
+
   declare global {
     interface Window {
       __openStatusRegistered?: boolean;
     }
   }
 
-  const OPEN_HOUR = 9; // 09:00
-  const CLOSE_HOUR = 22; // 22:00
-  const FRIDAY = 5;
+  const toMinutes = (time: string) => {
+    const [hour, minute] = time.split(':').map(Number);
+    return hour * 60 + minute;
+  };
+  const OPEN_MINUTE = toMinutes(business.openingHours.opens);
+  const CLOSE_MINUTE = toMinutes(business.openingHours.closes);
+  const OPEN_DAYS: readonly number[] = business.openingHours.days;
 
   // Weekday index in Riyadh, via the stable ASCII short names. The 'en-US' locale here is
   // an implementation detail to keep these keys predictable — it never reaches the user.
   const DAY_INDEX: Record<string, number> = { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 };
 
-  const THURSDAY = 4;
-
   type State = 'open' | 'today' | 'tomorrow' | 'saturday' | 'friday';
 
-  function riyadhNow(): { day: number; hour: number } {
+  function riyadhNow(): { day: number; minute: number } {
     const parts = new Intl.DateTimeFormat('en-US', {
       timeZone: 'Asia/Riyadh',
       weekday: 'short',
       hour: '2-digit',
+      minute: '2-digit',
       hour12: false,
     }).formatToParts(new Date());
 
@@ -102,17 +107,17 @@ const s = brochure[locale].openStatus;
     // hour12:false yields '24' rather than '00' for midnight in some engines.
     const hour = Number(value('hour')) % 24;
 
-    return { day: DAY_INDEX[value('weekday')] ?? 0, hour };
+    return { day: DAY_INDEX[value('weekday')] ?? 0, minute: hour * 60 + Number(value('minute')) };
   }
 
-  function resolve({ day, hour }: { day: number; hour: number }): State {
-    if (day === FRIDAY) return 'friday';
-    if (hour >= OPEN_HOUR && hour < CLOSE_HOUR) return 'open';
+  function resolve({ day, minute }: { day: number; minute: number }): State {
+    if (!OPEN_DAYS.includes(day)) return 'friday';
+    if (minute >= OPEN_MINUTE && minute < CLOSE_MINUTE) return 'open';
     // Before opening — it opens again later the same day.
-    if (hour < OPEN_HOUR) return 'today';
+    if (minute < OPEN_MINUTE) return 'today';
     // After closing. Thursday night skips Friday, so the next opening is Saturday — but the
     // shop *was* open earlier today, which is why this isn't the same state as Friday.
-    return day === THURSDAY ? 'saturday' : 'tomorrow';
+    return OPEN_DAYS.includes((day + 1) % 7) ? 'tomorrow' : 'saturday';
   }
 
   const ATTR: Record<State, string> = {

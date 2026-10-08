@@ -24,6 +24,25 @@ export const business = {
   mapEmbedAr: 'https://maps.google.com/maps?q=21.55124,39.1769838&hl=ar&z=16&output=embed',
   mapEmbedEn: 'https://maps.google.com/maps?q=21.55124,39.1769838&hl=en&z=16&output=embed',
   mapDirections: 'https://www.google.com/maps/dir/?api=1&destination=21.55124,39.1769838',
+  openingHours: {
+    opens: '09:00',
+    closes: '22:00',
+    // Sunday = 0, matching OpenStatus's Riyadh weekday indexes.
+    days: [6, 0, 1, 2, 3, 4],
+  },
+  address: {
+    countryCode: 'SA',
+    ar: {
+      streetAddress: 'سوق غراب، حي العزيزية',
+      locality: 'جدة',
+      country: 'المملكة العربية السعودية',
+    },
+    en: {
+      streetAddress: 'Ghorab Market, Aziziyah district',
+      locality: 'Jeddah',
+      country: 'Saudi Arabia',
+    },
+  },
 } as const;
 
 // Supplier brands stocked in store. Confirmed by the owner 2026-08-08 — only real product
@@ -170,7 +189,7 @@ export const brochure = {
       eyebrow: 'الموقع',
       title: 'تجدوننا هنا',
       addressLabel: 'العنوان:',
-      address: 'سوق غراب، حي العزيزية، جدة، المملكة العربية السعودية.',
+      address: `${business.address.ar.streetAddress}، ${business.address.ar.locality}، ${business.address.ar.country}.`,
       hoursLabel: 'ساعات العمل:',
       hours: ['السبت – الخميس: 9:00 صباحًا – 10:00 مساءً', 'الجمعة: مغلق'],
       mapsCta: 'افتح الاتجاهات في خرائط جوجل',
@@ -280,7 +299,7 @@ export const brochure = {
       eyebrow: 'Location',
       title: 'Find Us Here',
       addressLabel: 'Address:',
-      address: 'Ghorab Market, Aziziyah district, Jeddah, Saudi Arabia.',
+      address: `${business.address.en.streetAddress}, ${business.address.en.locality}, ${business.address.en.country}.`,
       hoursLabel: 'Hours:',
       hours: ['Saturday – Thursday: 9:00 AM – 10:00 PM', 'Friday: Closed'],
       mapsCta: 'Open directions in Google Maps',

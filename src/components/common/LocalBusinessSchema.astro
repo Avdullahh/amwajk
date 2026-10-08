@@ -7,37 +7,55 @@ export interface Props {
 }
 const { language = 'ar' } = Astro.props;
 const other: Locale = language === 'ar' ? 'en' : 'ar';
+const rootUrl = new URL('/', Astro.site).href;
+const address = business.address[language];
+const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
 const schema = {
   '@context': 'https://schema.org',
-  '@type': 'HardwareStore',
-  name: ui[language]['site.brand'],
-  alternateName: ui[other]['site.brand'],
-  url: 'https://www.amwajk.com',
-  telephone: '+966579779897',
-  email: business.email,
-  address: {
-    '@type': 'PostalAddress',
-    streetAddress: 'Ghorab Market, Aziziyah district',
-    addressLocality: 'Jeddah',
-    addressRegion: 'Makkah',
-    addressCountry: 'SA',
-  },
-  geo: {
-    '@type': 'GeoCoordinates',
-    latitude: business.lat,
-    longitude: business.lng,
-  },
-  openingHoursSpecification: [
+  '@graph': [
     {
-      '@type': 'OpeningHoursSpecification',
-      dayOfWeek: ['Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday'],
-      opens: '09:00',
-      closes: '22:00',
+      '@type': 'HardwareStore',
+      '@id': `${rootUrl}#business`,
+      name: ui[language]['site.brand'],
+      alternateName: ui[other]['site.brand'],
+      url: rootUrl,
+      telephone: business.phoneTel.replace(/^tel:/, ''),
+      email: business.email,
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: address.streetAddress,
+        addressLocality: address.locality,
+        addressCountry: business.address.countryCode,
+      },
+      geo: {
+        '@type': 'GeoCoordinates',
+        latitude: business.lat,
+        longitude: business.lng,
+      },
+      openingHoursSpecification: [
+        {
+          '@type': 'OpeningHoursSpecification',
+          dayOfWeek: business.openingHours.days.map((day) => dayNames[day]),
+          opens: business.openingHours.opens,
+          closes: business.openingHours.closes,
+        },
+      ],
+      contactPoint: {
+        '@type': 'ContactPoint',
+        url: business.whatsappUrl,
+        contactType: 'WhatsApp',
+      },
+      hasMap: business.mapDirections,
+    },
+    {
+      '@type': 'WebSite',
+      '@id': `${rootUrl}#website`,
+      url: rootUrl,
+      name: ui.ar['site.brand'],
+      alternateName: ui.en['site.brand'],
     },
   ],
-  priceRange: '$$',
-  hasMap: business.mapDirections,
 };
 ---
 
