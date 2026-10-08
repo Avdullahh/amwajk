@@ -71,6 +71,9 @@ export const ui = {
     'nav.contact': 'تواصل معنا',
     'nav.switchLabel': 'EN',
     'footer.rights': 'جميع الحقوق محفوظة.',
+    '404.title': 'الصفحة غير موجودة',
+    '404.description': 'عذرًا، لم نتمكن من العثور على هذه الصفحة. يمكنك العودة إلى الصفحة الرئيسية.',
+    '404.home': 'العودة إلى الصفحة الرئيسية',
   },
   en: {
     'site.brand': 'Amwaj Alkhaleej Establishment',
@@ -83,6 +86,9 @@ export const ui = {
     'nav.contact': 'Contact',
     'nav.switchLabel': 'AR',
     'footer.rights': 'All rights reserved.',
+    '404.title': 'Page not found',
+    '404.description': "Sorry, we couldn't find this page. You can return to our homepage.",
+    '404.home': 'Back to homepage',
   },
 } as const;
 

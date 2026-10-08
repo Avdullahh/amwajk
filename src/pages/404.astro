@@ -1,24 +1,29 @@
 ---
 import Layout from '~/layouts/Layout.astro';
-import { getHomePermalink } from '~/utils/permalinks';
+import { locales } from '~/i18n/ui';
+import { getRelativeLocaleUrl, useTranslations } from '~/i18n/utils';
 
-const title = `Error 404`;
+const title = `${useTranslations('ar')('404.title')} / ${useTranslations('en')('404.title')} — 404`;
 ---
 
-<Layout metadata={{ title }}>
-  <section class="flex items-center h-full p-16">
-    <div class="container flex flex-col items-center justify-center px-5 mx-auto my-8">
-      <div class="max-w-md text-center">
-        <h2 class="mb-8 font-bold text-9xl">
-          <span class="sr-only">Error</span>
-          <span class="text-primary">404</span>
-        </h2>
-        <p class="text-3xl font-semibold md:text-3xl">Sorry, we couldn't find this page.</p>
-        <p class="mt-4 mb-8 text-lg text-muted dark:text-slate-400">
-          But dont worry, you can find plenty of other things on our homepage.
-        </p>
-        <a rel="noopener noreferrer" href={getHomePermalink()} class="btn ms-4">Back to homepage</a>
-      </div>
+<Layout metadata={{ title }} skipSearchMetadata>
+  <main class="flex min-h-screen items-center p-8 md:p-16">
+    <div class="container mx-auto my-8 flex max-w-xl flex-col items-center gap-8 text-center">
+      <h1 class="text-9xl font-bold text-primary">404</h1>
+      {
+        locales.map((locale) => {
+          const t = useTranslations(locale);
+          return (
+            <section lang={locale} dir={locale === 'ar' ? 'rtl' : 'ltr'}>
+              <h2 class="text-3xl font-semibold">{t('404.title')}</h2>
+              <p class="mb-6 mt-4 text-lg text-muted dark:text-slate-400">{t('404.description')}</p>
+              <a href={getRelativeLocaleUrl(locale, '/')} class="btn">
+                {t('404.home')}
+              </a>
+            </section>
+          );
+        })
+      }
     </div>
-  </section>
+  </main>
 </Layout>
