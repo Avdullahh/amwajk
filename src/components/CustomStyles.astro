@@ -1,8 +1,11 @@
 ---
-import '@fontsource-variable/inter';
-// Arabic-capable variable font. Inter has no Arabic glyphs, so Arabic text falls through
-// to this. Swap for the design's chosen Arabic family when the new UI lands.
-import '@fontsource-variable/cairo';
+// Only the Arabic subset of Cairo is shipped (and preloaded on Arabic pages). Latin text,
+// including all of /en/, uses the system stack. `?url` gives the hashed path shared by
+// the @font-face below and the preload link.
+import cairoArabicUrl from '@fontsource-variable/cairo/files/cairo-arabic-wght-normal.woff2?url';
+
+const { language = 'ar' } = Astro.props;
+const cairoFace = `@font-face{font-family:'Cairo Variable';font-style:normal;font-display:swap;font-weight:200 1000;src:url(${cairoArabicUrl}) format('woff2-variations');unicode-range:U+0600-06FF,U+0750-077F,U+0870-088E,U+0890-0891,U+0897-08E1,U+08E3-08FF,U+200C-200E,U+2010-2011,U+204F,U+2E41,U+FB50-FDFF,U+FE70-FE74,U+FE76-FEFC,U+102E0-102FB,U+10E60-10E7E,U+10EC2-10EC4,U+10EFC-10EFF,U+1EE00-1EE03,U+1EE05-1EE1F,U+1EE21-1EE22,U+1EE24,U+1EE27,U+1EE29-1EE32,U+1EE34-1EE37,U+1EE39,U+1EE3B,U+1EE42,U+1EE47,U+1EE49,U+1EE4B,U+1EE4D-1EE4F,U+1EE51-1EE52,U+1EE54,U+1EE57,U+1EE59,U+1EE5B,U+1EE5D,U+1EE5F,U+1EE61-1EE62,U+1EE64,U+1EE67-1EE6A,U+1EE6C-1EE72,U+1EE74-1EE77,U+1EE79-1EE7C,U+1EE7E,U+1EE80-1EE89,U+1EE8B-1EE9B,U+1EEA1-1EEA3,U+1EEA5-1EEA9,U+1EEAB-1EEBB,U+1EEF0-1EEF1}`;
 
 // 'DM Sans'
 // Nunito
@@ -22,14 +25,16 @@ import '@fontsource-variable/cairo';
 // Urbanist
 ---
 
+{language === 'ar' && <link rel="preload" as="font" type="font/woff2" href={cairoArabicUrl} crossorigin />}
+<style is:inline set:html={cairoFace}></style>
 <style is:inline>
   /* Brand palette — Amwaj Alkhaleej. Deep blue wave-mark, blue-grey supporting tones.
      See documents/BRANDIDENTITY.md. These vars are the ONLY place colours are defined;
      components read them through the Tailwind theme (tailwind.config.js). */
   :root {
-    --aw-font-sans: 'Inter Variable', 'Cairo Variable';
-    --aw-font-serif: 'Inter Variable', 'Cairo Variable';
-    --aw-font-heading: 'Inter Variable', 'Cairo Variable';
+    --aw-font-sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    --aw-font-serif: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    --aw-font-heading: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 
     --aw-color-primary: rgb(30 79 120); /* #1E4F78 deep blue — matches the hero CTA */
     --aw-color-secondary: rgb(67 105 140); /* #43698C muted blue-grey */
@@ -48,13 +53,15 @@ import '@fontsource-variable/cairo';
     }
   }
 
-  /* Arabic leads with Cairo. Inter carries no Arabic glyphs, so listing it first only
-     works by fall-through; naming Cairo first makes the choice deliberate and keeps
-     Latin text inside Arabic pages (phone numbers, brand names) on Inter. */
+  /* Arabic leads with Cairo (Arabic subset only); Latin text inside Arabic pages
+     (phone numbers, brand names) falls through to the system stack. */
   [lang='ar'] {
-    --aw-font-sans: 'Cairo Variable', 'Inter Variable';
-    --aw-font-serif: 'Cairo Variable', 'Inter Variable';
-    --aw-font-heading: 'Cairo Variable', 'Inter Variable';
+    --aw-font-sans:
+      'Cairo Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    --aw-font-serif:
+      'Cairo Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    --aw-font-heading:
+      'Cairo Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   }
 
   /* Colours only — the font vars are intentionally NOT repeated here. `.dark` and
