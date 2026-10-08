@@ -1,5 +1,5 @@
 site:
-  name: Amwaj Alkhaleej
+  name: Amwaj Alkhaleej Establishment
   site: 'https://www.amwajk.com'
   base: '/'
   trailingSlash: true
@@ -7,14 +7,14 @@ site:
 # Default SEO metadata
 metadata:
   title:
-    default: مؤسسة أمواج الخليج التجارية — جدة
+    default: أدوات صحية ومستلزمات سباكة في جدة | مؤسسة أمواج الخليج التجارية
     template: '%s — مؤسسة أمواج الخليج التجارية'
   description: 'مؤسسة أمواج الخليج التجارية — متجر متخصص في الأدوات الصحية ومستلزمات السباكة في حي العزيزية، جدة (سوق غراب).'
   robots:
     index: true
     follow: true
   openGraph:
-    site_name: Amwaj Alkhaleej
+    site_name: Amwaj Alkhaleej Establishment
     type: website
 
 i18n:

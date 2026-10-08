@@ -1,7 +1,7 @@
 ---
 import { Icon } from 'astro-icon/components';
-import { SITE } from 'astrowind:config';
 import Logo from '~/components/Logo.astro';
+import { asLocale, useTranslations } from '~/i18n/utils';
 import { getHomePermalink } from '~/utils/permalinks';
 
 interface Link {
@@ -25,6 +25,7 @@ export interface Props {
 }
 
 const { socialLinks = [], secondaryLinks = [], links = [], footNote = '', theme = 'light' } = Astro.props;
+const t = useTranslations(asLocale(Astro.currentLocale));
 ---
 
 <footer class:list={[{ dark: theme === 'dark' }, 'relative border-t border-gray-200 dark:border-slate-800 not-prose']}>
@@ -36,7 +37,7 @@ const { socialLinks = [], secondaryLinks = [], links = [], footNote = '', theme 
       <div class="col-span-12 lg:col-span-4">
         <div class="mb-2">
           {
-            /* The wave mark stands in for the brand name here. `SITE.name` is kept as
+            /* The wave mark stands in for the brand name here. The localized brand is kept as
               visually-hidden text so the link still has a readable accessible name and the
               brand string stays in the page for search engines. */
           }
@@ -46,7 +47,7 @@ const { socialLinks = [], secondaryLinks = [], links = [], footNote = '', theme 
                 lightens under .dark, so no dark-mode override is needed. */
             }
             <Logo decorative class="size-12 text-primary" />
-            <span class="sr-only">{SITE?.name}</span>
+            <span class="sr-only">{t('site.brand')}</span>
           </a>
         </div>
         <div class="text-sm text-muted flex gap-1">

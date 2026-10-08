@@ -1,5 +1,6 @@
 ---
 import Logo from '~/assets/images/logo.svg';
+import { asLocale, useTranslations } from '~/i18n/utils';
 
 interface Props {
   /**
@@ -12,12 +13,13 @@ interface Props {
 }
 
 const { decorative = false, class: className = 'logo size-12' } = Astro.props;
+const t = useTranslations(asLocale(Astro.currentLocale));
 ---
 
 {
   decorative ? (
     <Logo class={className} aria-hidden="true" />
   ) : (
-    <Logo class={className} aria-label="Amwaj Alkhaleej" role="img" />
+    <Logo class={className} aria-label={t('site.brand')} role="img" />
   )
 }

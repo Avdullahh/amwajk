@@ -1,6 +1,6 @@
-# Amwaj Alkhaleej — امواج الخليج
+# Amwaj Alkhaleej Establishment — مؤسسة أمواج الخليج التجارية
 
-Multilingual website for **Amwaj Alkhaleej**, a sanitary-ware & plumbing supplies retailer
+Multilingual website for **Amwaj Alkhaleej Establishment / مؤسسة أمواج الخليج التجارية**, a sanitary-ware & plumbing supplies retailer
 in Ghorab Market, Aziziyah district, Jeddah, Saudi Arabia.
 
 The site is **bilingual** — Arabic primary (RTL) at `/`, English secondary (LTR) at `/en/` —

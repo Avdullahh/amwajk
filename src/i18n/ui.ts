@@ -43,7 +43,7 @@ export const brands = [
 export const ui = {
   ar: {
     'site.brand': 'مؤسسة أمواج الخليج التجارية',
-    'meta.title': 'مؤسسة أمواج الخليج التجارية — جدة',
+    'meta.title': 'أدوات صحية ومستلزمات سباكة في جدة | مؤسسة أمواج الخليج التجارية',
     'meta.description':
       'مؤسسة أمواج الخليج التجارية — متجر متخصص في الأدوات الصحية ومستلزمات السباكة في حي العزيزية، جدة (سوق غراب).',
     'nav.products': 'منتجاتنا',
@@ -55,9 +55,9 @@ export const ui = {
   },
   en: {
     'site.brand': 'Amwaj Alkhaleej Establishment',
-    'meta.title': 'Amwaj Alkhaleej Establishment — Jeddah',
+    'meta.title': 'Sanitary Ware & Plumbing Supplies in Jeddah | Amwaj Alkhaleej Establishment',
     'meta.description':
-      'Amwaj Alkhaleej Establishment — sanitary ware & plumbing supplies in the Al Aziziyah district, Jeddah (Ghurab market).',
+      'Amwaj Alkhaleej Establishment — sanitary ware & plumbing supplies in the Aziziyah district, Jeddah (Ghorab Market).',
     'nav.products': 'Products',
     'nav.whyUs': 'Why Us',
     'nav.location': 'Location',
@@ -174,7 +174,7 @@ export const brochure = {
       hoursLabel: 'ساعات العمل:',
       hours: ['السبت – الخميس: 9:00 صباحًا – 10:00 مساءً', 'الجمعة: مغلق'],
       mapsCta: 'افتح الاتجاهات في خرائط جوجل',
-      mapTitle: 'موقع مؤسسة أمواج الخليج على الخريطة',
+      mapTitle: 'موقع مؤسسة أمواج الخليج التجارية على الخريطة',
     },
     contact: {
       eyebrow: 'تواصل معنا',
@@ -284,7 +284,7 @@ export const brochure = {
       hoursLabel: 'Hours:',
       hours: ['Saturday – Thursday: 9:00 AM – 10:00 PM', 'Friday: Closed'],
       mapsCta: 'Open directions in Google Maps',
-      mapTitle: 'Amwaj Alkhaleej location on map',
+      mapTitle: 'Amwaj Alkhaleej Establishment location on map',
     },
     contact: {
       eyebrow: 'Contact',
