@@ -15,6 +15,7 @@ export const defaultLocale: Locale = 'ar';
 
 // Locale-independent business facts (phone, links, etc.) — never duplicate these per locale.
 export const business = {
+  logo: '/images/logo.png',
   lat: 21.55124,
   lng: 39.1769838,
   phoneDisplay: '+966 57 977 9897',
@@ -62,6 +63,8 @@ export const brands = [
 export const ui = {
   ar: {
     'site.brand': 'مؤسسة أمواج الخليج التجارية',
+    'meta.image': '/images/og-ar.png',
+    'meta.imageAlt': 'شعار مؤسسة أمواج الخليج التجارية — أدوات صحية ومستلزمات سباكة في جدة',
     'meta.title': 'أدوات صحية ومستلزمات سباكة في جدة | مؤسسة أمواج الخليج التجارية',
     'meta.description':
       'مؤسسة أمواج الخليج التجارية — متجر متخصص في الأدوات الصحية ومستلزمات السباكة في حي العزيزية، جدة (سوق غراب).',
@@ -77,6 +80,8 @@ export const ui = {
   },
   en: {
     'site.brand': 'Amwaj Alkhaleej Establishment',
+    'meta.image': '/images/og-en.png',
+    'meta.imageAlt': 'Amwaj Alkhaleej Establishment logo — sanitary ware and plumbing supplies in Jeddah',
     'meta.title': 'Sanitary Ware & Plumbing Supplies in Jeddah | Amwaj Alkhaleej Establishment',
     'meta.description':
       'Amwaj Alkhaleej Establishment — sanitary ware & plumbing supplies in the Aziziyah district, Jeddah (Ghorab Market).',

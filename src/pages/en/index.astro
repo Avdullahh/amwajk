@@ -8,6 +8,10 @@ const metadata = {
   title: t('meta.title'),
   description: t('meta.description'),
   ignoreTitleTemplate: true,
+  openGraph: {
+    images: [{ url: t('meta.image'), width: 1200, height: 630, alt: t('meta.imageAlt') }],
+  },
+  twitter: { cardType: 'summary_large_image' },
 };
 ---
 

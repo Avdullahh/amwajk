@@ -1,5 +1,5 @@
 ---
-import { business, ui } from '~/i18n/ui';
+import { brands, brochure, business, ui } from '~/i18n/ui';
 import type { Locale } from '~/i18n/ui';
 
 export interface Props {
@@ -20,6 +20,19 @@ const schema = {
       name: ui[language]['site.brand'],
       alternateName: ui[other]['site.brand'],
       url: rootUrl,
+      logo: new URL(business.logo, rootUrl).href,
+      image: new URL(ui[language]['meta.image'], rootUrl).href,
+      description: brochure[language].hero.subtitle,
+      areaServed: { '@type': 'City', name: address.locality },
+      brand: brands.map(({ name }) => ({ '@type': 'Brand', name })),
+      hasOfferCatalog: {
+        '@type': 'OfferCatalog',
+        name: brochure[language].products.title,
+        itemListElement: brochure[language].products.items.map(({ title }) => ({
+          '@type': 'OfferCatalog',
+          name: title,
+        })),
+      },
       telephone: business.phoneTel.replace(/^tel:/, ''),
       email: business.email,
       address: {
