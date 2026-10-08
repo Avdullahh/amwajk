@@ -29,7 +29,9 @@ export interface Props {
 const { metadata = {}, language: langProp, textDirection: dirProp, skipSearchMetadata = false } = Astro.props;
 const language = langProp ?? I18N.language;
 const textDirection = dirProp ?? I18N.textDirection;
+// en_US, not en_SA: Facebook's scraper only recognises a fixed locale list that excludes en_SA.
 const ogLocale = language === 'en' ? 'en_US' : 'ar_SA';
+const ogLocaleAlt = language === 'en' ? 'ar_SA' : 'en_US';
 const rawPath = Astro.url.pathname.replace(/^\/en/, '') || '/';
 const arHref = getAbsoluteLocaleUrl('ar', rawPath);
 const enHref = getAbsoluteLocaleUrl('en', rawPath);
@@ -51,6 +53,7 @@ const defaultHref = getAbsoluteLocaleUrl('ar', '/');
     {
       !skipSearchMetadata && (
         <>
+          <meta property="og:locale:alternate" content={ogLocaleAlt} />
           <link rel="alternate" hreflang="ar-SA" href={arHref} />
           <link rel="alternate" hreflang="en-SA" href={enHref} />
           <link rel="alternate" hreflang="x-default" href={defaultHref} />
