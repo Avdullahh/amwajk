@@ -50,7 +50,12 @@ export default defineConfig({
   },
 
   integrations: [
-    sitemap(),
+    sitemap({
+      i18n: {
+        defaultLocale: 'ar',
+        locales: { ar: 'ar-SA', en: 'en-SA' },
+      },
+    }),
     mdx(),
     icon({
       include: {
